@@ -5,186 +5,284 @@
     android:id="@+id/fragment_menu_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#10131B"
-    android:padding="14dp">
-
-    <TextView
-        android:id="@+id/eto_brand"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="ETO  /  JAVA EDITION"
-        android:textColor="#F7F8FC"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:letterSpacing="0.08"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/news_button" />
-
-    <com.kdt.mcgui.LauncherMenuButton
-        android:id="@+id/news_button"
-        android:layout_width="wrap_content"
-        android:layout_height="44dp"
-        android:text="WIKI"
-        android:textColor="#A8B2C5"
-        android:backgroundTint="#202635"
-        android:drawableStart="@drawable/ic_px_book"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/social_media_button" />
-
-    <com.kdt.mcgui.LauncherMenuButton
-        android:id="@+id/social_media_button"
-        android:layout_width="wrap_content"
-        android:layout_height="44dp"
-        android:text="COMMUNITY"
-        android:textColor="#A8B2C5"
-        android:backgroundTint="#202635"
-        android:drawableStart="@drawable/ic_social_media"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/eto_welcome"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:text="YOUR WORLD. YOUR RULES."
-        android:textColor="#63E6BE"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        android:letterSpacing="0.14"
-        app:layout_constraintTop_toBottomOf="@id/eto_brand"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/eto_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Ready to play?"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:layout_marginTop="4dp"
-        app:layout_constraintTop_toBottomOf="@id/eto_welcome"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/eto_subtitle"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="Choose a version, then jump into your next world."
-        android:textColor="#929DB2"
-        android:textSize="14sp"
-        android:layout_marginTop="4dp"
-        app:layout_constraintTop_toBottomOf="@id/eto_title"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    android:background="#191919">
 
     <LinearLayout
-        android:id="@+id/eto_tools_card"
-        android:layout_width="0dp"
+        android:id="@+id/eto_sidebar"
+        android:layout_width="208dp"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:padding="10dp"
-        android:layout_marginTop="18dp"
-        android:layout_marginBottom="12dp"
-        android:background="#191F2D"
-        app:layout_constraintTop_toBottomOf="@id/eto_subtitle"
-        app:layout_constraintBottom_toTopOf="@id/mc_version_spinner"
+        android:padding="14dp"
+        android:background="#292929"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <com.kdt.mcgui.LauncherMenuButton
-            android:id="@+id/custom_control_button"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:text="  Controls &amp; Key Mapping"
-            android:textColor="#E8ECF5"
-            android:backgroundTint="#252D3E"
-            android:drawableStart="@drawable/ic_px_gamepad" />
+            android:text="ETO LAUNCHER"
+            android:textColor="#F2F2F2"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:paddingBottom="18dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="MINECRAFT: JAVA EDITION"
+            android:textColor="#A7A7A7"
+            android:textSize="10sp"
+            android:letterSpacing="0.08"
+            android:paddingBottom="14dp" />
+
+        <com.kdt.mcgui.LauncherMenuButton
+            android:id="@+id/news_button"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:text="  News"
+            android:textColor="#F5F5F5"
+            android:backgroundTint="#3A3A3A"
+            android:drawableStart="@drawable/ic_px_book" />
+
+        <com.kdt.mcgui.LauncherMenuButton
+            android:id="@+id/social_media_button"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:text="  Community"
+            android:textColor="#E1E1E1"
+            android:backgroundTint="#303030"
+            android:drawableStart="@drawable/ic_social_media" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="#454545" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="PROFILES"
+            android:textColor="#A8A8A8"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:paddingBottom="6dp" />
 
         <com.kdt.mcgui.LauncherMenuButton
             android:id="@+id/install_jar_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:text="  Install Java Version"
-            android:textColor="#E8ECF5"
-            android:backgroundTint="#252D3E"
+            android:layout_height="42dp"
+            android:text="  Add version"
+            android:textColor="#E8E8E8"
+            android:backgroundTint="#303030"
             android:drawableStart="@drawable/ic_px_java_run" />
+
+        <com.kdt.mcgui.LauncherMenuButton
+            android:id="@+id/custom_control_button"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:text="  Controls"
+            android:textColor="#E8E8E8"
+            android:backgroundTint="#303030"
+            android:drawableStart="@drawable/ic_px_gamepad" />
 
         <com.kdt.mcgui.LauncherMenuButton
             android:id="@+id/open_files_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
-            android:text="  Game Files"
-            android:textColor="#E8ECF5"
-            android:backgroundTint="#252D3E"
+            android:layout_height="42dp"
+            android:text="  Game files"
+            android:textColor="#E8E8E8"
+            android:backgroundTint="#303030"
             android:drawableStart="@drawable/ic_px_folder" />
 
         <com.kdt.mcgui.LauncherMenuButton
             android:id="@+id/share_logs_button"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="  Share Debug Logs"
-            android:textColor="#E8ECF5"
-            android:backgroundTint="#252D3E"
+            android:layout_height="42dp"
+            android:text="  Debug logs"
+            android:textColor="#E8E8E8"
+            android:backgroundTint="#303030"
             android:drawableStart="@drawable/ic_px_sharelog" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <com.kdt.mcgui.mcVersionSpinner
+            android:id="@+id/mc_version_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#202020"
+            android:drawableEnd="@drawable/spinner_arrow"
+            app:drawableEndSize="18dp"
+            app:drawableStartIntegerScaling="true"
+            app:drawableStartSize="28dp"
+            app:drawableEndPadding="3dp" />
+
+        <ImageButton
+            android:id="@+id/edit_profile_button"
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:layout_marginTop="4dp"
+            android:background="#343434"
+            android:src="@drawable/ic_px_edit"
+            android:contentDescription="Edit profile" />
+
+        <com.kdt.mcgui.MineButton
+            android:id="@+id/play_button"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="8dp"
+            android:text="PLAY"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textAllCaps="true"
+            android:backgroundTint="#00B85A" />
     </LinearLayout>
 
-    <com.kdt.mcgui.mcVersionSpinner
-        android:id="@+id/mc_version_spinner"
+    <LinearLayout
+        android:id="@+id/eto_news_area"
         android:layout_width="0dp"
-        android:layout_height="52dp"
-        android:background="#202635"
-        android:paddingStart="12dp"
-        android:drawableEnd="@drawable/spinner_arrow"
-        app:drawableEndSize="20dp"
-        app:drawableStartIntegerScaling="true"
-        app:drawableStartSize="36dp"
-        app:drawableEndPadding="4dp"
-        app:layout_constraintBottom_toTopOf="@id/play_button"
-        app:layout_constraintEnd_toStartOf="@id/edit_profile_button"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageButton
-        android:id="@+id/edit_profile_button"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
-        android:background="#202635"
-        android:src="@drawable/ic_px_edit"
-        app:layout_constraintBottom_toBottomOf="@id/mc_version_spinner"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:padding="18dp"
+        android:background="#202020"
+        app:layout_constraintStart_toEndOf="@id/eto_sidebar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/mc_version_spinner" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="LATEST NEWS"
+                android:textColor="#F4F4F4"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <com.kdt.mcgui.LauncherMenuButton
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:text="  Settings"
+                android:textColor="#DDDDDD"
+                android:backgroundTint="#303030"
+                android:drawableStart="@drawable/ic_px_sliders" />
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="12dp">
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="230dp"
+                    android:background="@drawable/eto_news_banner">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:orientation="vertical"
+                        android:padding="18dp"
+                        android:background="#CC111111">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="ETO • MINECRAFT JAVA"
+                            android:textColor="#66E5A3"
+                            android:textSize="11sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Your next world starts here"
+                            android:textColor="#FFFFFF"
+                            android:textSize="25sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Manage versions, profiles and launch options."
+                            android:textColor="#D6D6D6"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="LAUNCHER UPDATES"
+                    android:textColor="#F0F0F0"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    android:background="#303030">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Welcome to Eto Launcher"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="A clean desktop-inspired home for Minecraft Java on Android."
+                        android:textColor="#C5C5C5"
+                        android:textSize="13sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Tip: choose your Minecraft profile from the left panel before pressing PLAY."
+                    android:textColor="#AFAFAF"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 
     <View
         android:id="@+id/_background_display_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#10131B"
-        android:translationZ="-1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@id/mc_version_spinner"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <com.kdt.mcgui.MineButton
-        android:id="@+id/play_button"
-        android:layout_width="0dp"
-        android:layout_height="62dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="4dp"
-        android:backgroundTint="#63E6BE"
-        android:text="PLAY"
-        android:textColor="#10131B"
-        android:textStyle="bold"
-        android:textAllCaps="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
