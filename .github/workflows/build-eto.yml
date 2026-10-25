@@ -37,10 +37,14 @@ jobs:
           from pathlib import Path
           p = Path("upstream/app_pojavlauncher/build.gradle")
           s = p.read_text(encoding="utf-8")
-          s = s.replace('resValue "string", "app_name", "PojavLauncher (Debug)"',
-                        'resValue "string", "app_name", "Eto Launcher"')
-          s = s.replace('resValue "string", "app_short_name", "PojavLauncher (Debug)"',
-                        'resValue "string", "app_short_name", "Eto Launcher"')
+          import re
+          lines = []
+          for line in s.splitlines():
+              if "resValue" in line and ("app_name" in line or "app_short_name" in line):
+                  key = "app_short_name" if "app_short_name" in line else "app_name"
+                  line = re.sub(r"""(resValue\s+['"]string['"]\s*,\s*['"]""" + key + r"""['"]\s*,\s*)['"][^'"]*['"]""", r'\1"Eto Launcher"', line)
+              lines.append(line)
+          s = "\n".join(lines) + "\n"
           p.write_text(s, encoding="utf-8")
 
           manifest = Path("upstream/app_pojavlauncher/src/main/AndroidManifest.xml")
@@ -54,15 +58,21 @@ jobs:
           for activity in root.iter("activity"):
               if activity.get(ns + "name") in targets:
                   activity.set(ns + "screenOrientation", "landscape")
+          app = root.find("application")
+          app.set(ns + "icon", "@drawable/eto_launcher_icon")
+          app.set(ns + "roundIcon", "@drawable/eto_launcher_icon")
           tree.write(manifest, encoding="utf-8", xml_declaration=True)
-          print("Eto branding and landscape orientation applied.")
+          print("Eto name, icon and landscape orientation applied.")
           PY
 
       - name: Apply Eto custom launcher interface
         run: |
           cp eto-ui/fragment_launcher.xml upstream/app_pojavlauncher/src/main/res/layout/fragment_launcher.xml
+          cp eto-ui/fragment_launcher.xml upstream/app_pojavlauncher/src/main/res/layout-land/fragment_launcher.xml
           cp eto-ui/activity_pojav_launcher.xml upstream/app_pojavlauncher/src/main/res/layout/activity_pojav_launcher.xml
+          cp eto-ui/activity_pojav_launcher.xml upstream/app_pojavlauncher/src/main/res/layout-land/activity_pojav_launcher.xml
           cp eto-ui/eto_news_banner.xml upstream/app_pojavlauncher/src/main/res/drawable/eto_news_banner.xml
+          cp eto-ui/eto_launcher_icon.xml upstream/app_pojavlauncher/src/main/res/drawable/eto_launcher_icon.xml
 
       - name: Build Eto debug APK
         working-directory: upstream
