@@ -38,14 +38,11 @@ jobs:
           p = Path("upstream/app_pojavlauncher/build.gradle")
           s = p.read_text(encoding="utf-8")
           import re
-          lines = []
-          for line in s.splitlines():
-              if "resValue" in line and ("app_name" in line or "app_short_name" in line):
-                  line = re.sub(r"""(resValue\s+['"]string['"]\s*,\s*['"](?:app_name|app_short_name)['"]\s*,\s*)['"][^'"]*['"]""", r'\1"Eto Launcher"', line)
-              lines.append(line)
-          s = "\n".join(lines) + "\n"
+          s, count = re.subn(r'(resValue\\s+"string",\\s+"app_(?:short_)?name",\\s+")[^"]*(")', r'\\1Eto Launcher\\2', s)
+          if count < 4:
+              raise SystemExit(f"Expected to replace app names in all build variants, only changed {count}")
           p.write_text(s, encoding="utf-8")
-          print("All build variants use Eto Launcher as the installed app name.")
+          print(f"Replaced {count} app-name values with Eto Launcher.")
 
           manifest = Path("upstream/app_pojavlauncher/src/main/AndroidManifest.xml")
           import xml.etree.ElementTree as ET
@@ -61,6 +58,10 @@ jobs:
           app = root.find("application")
           app.set(ns + "icon", "@drawable/eto_launcher_icon")
           app.set(ns + "roundIcon", "@drawable/eto_launcher_icon")
+          app.set(ns + "label", "Eto Launcher")
+          for activity in root.iter("activity"):
+              if activity.get(ns + "name") in targets:
+                  activity.set(ns + "label", "Eto Launcher")
           tree.write(manifest, encoding="utf-8", xml_declaration=True)
           print("Eto name, icon and landscape orientation applied.")
           PY
