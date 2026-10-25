@@ -42,20 +42,7 @@ jobs:
                         'resValue "string", "app_short_name", "Eto Launcher"')
           p.write_text(s, encoding="utf-8")
 
-          manifest = Path("upstream/app_pojavlauncher/src/main/AndroidManifest.xml")
-          s = manifest.read_text(encoding="utf-8")
-          for name in ("net.kdt.pojavlaunch.TestStorageActivity",
-                       "net.kdt.pojavlaunch.LauncherActivity"):
-              marker = f'<activity\n            android:name="{name}"'
-              if marker not in s:
-                  raise SystemExit(f"Could not locate launcher activity: {name}")
-              start = s.index(marker)
-              end = s.index(">", start)
-              block = s[start:end]
-              if "android:screenOrientation" not in block:
-                  s = s[:end] + ' android:screenOrientation="sensorLandscape"' + s[end:]
-          manifest.write_text(s, encoding="utf-8")
-          print("Eto app name and landscape launcher orientation applied.")
+          print("Eto app name applied. Keeping upstream manifest unchanged to avoid breaking XML parsing.")
           PY
 
       - name: Build Eto debug APK
