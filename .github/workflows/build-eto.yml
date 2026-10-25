@@ -71,6 +71,11 @@ jobs:
           cp eto-ui/fragment_launcher.xml upstream/app_pojavlauncher/src/main/res/layout-land/fragment_launcher.xml
           cp eto-ui/activity_pojav_launcher.xml upstream/app_pojavlauncher/src/main/res/layout/activity_pojav_launcher.xml
           cp eto-ui/activity_pojav_launcher.xml upstream/app_pojavlauncher/src/main/res/layout-land/activity_pojav_launcher.xml
+          cp eto-ui/fragment_local_login.xml upstream/app_pojavlauncher/src/main/res/layout/fragment_local_login.xml
+          cp eto-ui/fragment_local_login.xml upstream/app_pojavlauncher/src/main/res/layout-land/fragment_local_login.xml
+          cp eto-ui/fragment_select_auth_method.xml upstream/app_pojavlauncher/src/main/res/layout/fragment_select_auth_method.xml
+          cp eto-ui/fragment_select_auth_method.xml upstream/app_pojavlauncher/src/main/res/layout-land/fragment_select_auth_method.xml
+          cp eto-ui/colors.xml upstream/app_pojavlauncher/src/main/res/values/colors.xml
           cp eto-ui/eto_news_banner.xml upstream/app_pojavlauncher/src/main/res/drawable/eto_news_banner.xml
           cp eto-ui/eto_launcher_icon.xml upstream/app_pojavlauncher/src/main/res/drawable/eto_launcher_icon.xml
 
