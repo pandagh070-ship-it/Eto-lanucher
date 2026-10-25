@@ -64,8 +64,8 @@ jobs:
           app.set(ns + "roundIcon", "@drawable/eto_launcher_icon")
           app.set(ns + "label", "Eto Launcher")
           for activity in root.iter("activity"):
-              if activity.get(ns + "name") in targets:
-                  activity.set(ns + "label", "Eto Launcher")
+              # Override upstream labels everywhere.
+              activity.set(ns + "label", "Eto Launcher")
           tree.write(manifest, encoding="utf-8", xml_declaration=True)
           print("Eto name, icon and landscape orientation applied.")
           PY
