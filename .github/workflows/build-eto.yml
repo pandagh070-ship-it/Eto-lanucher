@@ -43,13 +43,26 @@ jobs:
                         'resValue "string", "app_short_name", "Eto Launcher"')
           p.write_text(s, encoding="utf-8")
 
-          print("Eto app name applied. Keeping upstream manifest unchanged to avoid breaking XML parsing.")
+          manifest = Path("upstream/app_pojavlauncher/src/main/AndroidManifest.xml")
+          import xml.etree.ElementTree as ET
+          ET.register_namespace("android", "http://schemas.android.com/apk/res/android")
+          tree = ET.parse(manifest)
+          root = tree.getroot()
+          ns = "{http://schemas.android.com/apk/res/android}"
+          targets = {"net.kdt.pojavlaunch.TestStorageActivity", ".TestStorageActivity",
+                     "net.kdt.pojavlaunch.LauncherActivity", ".LauncherActivity"}
+          for activity in root.iter("activity"):
+              if activity.get(ns + "name") in targets:
+                  activity.set(ns + "screenOrientation", "landscape")
+          tree.write(manifest, encoding="utf-8", xml_declaration=True)
+          print("Eto branding and landscape orientation applied.")
           PY
 
       - name: Apply Eto custom launcher interface
         run: |
           cp eto-ui/fragment_launcher.xml upstream/app_pojavlauncher/src/main/res/layout/fragment_launcher.xml
           cp eto-ui/activity_pojav_launcher.xml upstream/app_pojavlauncher/src/main/res/layout/activity_pojav_launcher.xml
+          cp eto-ui/eto_news_banner.xml upstream/app_pojavlauncher/src/main/res/drawable/eto_news_banner.xml
 
       - name: Build Eto debug APK
         working-directory: upstream
