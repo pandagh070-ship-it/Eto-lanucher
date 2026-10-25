@@ -17,10 +17,9 @@ jobs:
       - name: Checkout Eto Launcher configuration
         uses: actions/checkout@v4
 
-      - name: Fetch open-source launcher engine
+      - name: Fetch launcher engine with required submodules
         run: |
-          git clone --depth 1 https://github.com/TeamPojavLauncher/PojavLauncher.git upstream
-          echo "Upstream source downloaded:"
+          git clone --depth 1 --recurse-submodules https://github.com/TeamPojavLauncher/PojavLauncher.git upstream
           git -C upstream log -1 --oneline
 
       - name: Set up Java
@@ -29,34 +28,46 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Apply Eto app name
+      - name: Apply Eto branding and landscape launcher
         shell: bash
         run: |
           set -e
-          STRINGS="upstream/app_pojavlauncher/src/main/res/values/strings.xml"
-          test -f "$STRINGS"
           python3 - <<'PY'
           from pathlib import Path
-          p = Path("upstream/app_pojavlauncher/src/main/res/values/strings.xml")
+          p = Path("upstream/app_pojavlauncher/build.gradle")
           s = p.read_text(encoding="utf-8")
-          old = '<string name="app_short_name">PojavLauncher</string>'
-          new = '<string name="app_short_name">Eto Launcher</string>'
-          if old not in s:
-              raise SystemExit("Could not locate expected app label; stopping the build.")
-          p.write_text(s.replace(old, new, 1), encoding="utf-8")
-          print("App label set to Eto Launcher.")
+          s = s.replace('resValue "string", "app_name", "PojavLauncher (Debug)"',
+                        'resValue "string", "app_name", "Eto Launcher"')
+          s = s.replace('resValue "string", "app_short_name", "PojavLauncher (Debug)"',
+                        'resValue "string", "app_short_name", "Eto Launcher"')
+          p.write_text(s, encoding="utf-8")
+
+          manifest = Path("upstream/app_pojavlauncher/src/main/AndroidManifest.xml")
+          s = manifest.read_text(encoding="utf-8")
+          for name in ("net.kdt.pojavlaunch.TestStorageActivity",
+                       "net.kdt.pojavlaunch.LauncherActivity"):
+              marker = f'<activity\n            android:name="{name}"'
+              if marker not in s:
+                  raise SystemExit(f"Could not locate launcher activity: {name}")
+              start = s.index(marker)
+              end = s.index(">", start)
+              block = s[start:end]
+              if "android:screenOrientation" not in block:
+                  s = s[:end] + ' android:screenOrientation="sensorLandscape"' + s[end:]
+          manifest.write_text(s, encoding="utf-8")
+          print("Eto app name and landscape launcher orientation applied.")
           PY
 
-      - name: Build debug APK
+      - name: Build Eto debug APK
         working-directory: upstream
         run: |
           chmod +x gradlew
-          ./gradlew :app_pojavlauncher:assembleDebug --no-daemon
+          ./gradlew :app_pojavlauncher:assembleFullDebug --no-daemon
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: eto-launcher-debug-apk
-          path: upstream/app_pojavlauncher/build/outputs/apk/debug/*.apk
+          path: upstream/app_pojavlauncher/build/outputs/apk/full/debug/*.apk
           if-no-files-found: error
           retention-days: 7
