@@ -110,8 +110,6 @@ jobs:
                   <item name="android:textColorPrimary">#18212B</item>
                   <item name="android:textColorSecondary">#536170</item>
                   <item name="android:textColor">#18212B</item>
-                  <item name="textColorPrimary">#18212B</item>
-                  <item name="textColorSecondary">#536170</item>
                   <item name="colorAccent">#19A765</item>'''
           if anchor not in s:
               raise SystemExit("Could not find MojoLauncher theme in styles.xml")
