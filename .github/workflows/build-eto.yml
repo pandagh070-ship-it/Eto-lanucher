@@ -138,6 +138,8 @@ jobs:
           print("Applied dark default text colors to launcher and settings theme.")
           PY
 
+      - name: Add functional Eto customization
+        run: python3 scripts/patch_eto_customization.py
       - name: Build Eto debug APK
         working-directory: upstream
         run: |
