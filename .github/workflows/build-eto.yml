@@ -41,11 +41,11 @@ jobs:
           lines = []
           for line in s.splitlines():
               if "resValue" in line and ("app_name" in line or "app_short_name" in line):
-                  key = "app_short_name" if "app_short_name" in line else "app_name"
-                  line = re.sub(r"""(resValue\s+['"]string['"]\s*,\s*['"]""" + key + r"""['"]\s*,\s*)['"][^'"]*['"]""", r'\1"Eto Launcher"', line)
+                  line = re.sub(r"""(resValue\s+['"]string['"]\s*,\s*['"](?:app_name|app_short_name)['"]\s*,\s*)['"][^'"]*['"]""", r'\1"Eto Launcher"', line)
               lines.append(line)
           s = "\n".join(lines) + "\n"
           p.write_text(s, encoding="utf-8")
+          print("All build variants use Eto Launcher as the installed app name.")
 
           manifest = Path("upstream/app_pojavlauncher/src/main/AndroidManifest.xml")
           import xml.etree.ElementTree as ET
@@ -78,6 +78,22 @@ jobs:
           cp eto-ui/colors.xml upstream/app_pojavlauncher/src/main/res/values/colors.xml
           cp eto-ui/eto_news_banner.xml upstream/app_pojavlauncher/src/main/res/drawable/eto_news_banner.xml
           cp eto-ui/eto_launcher_icon.xml upstream/app_pojavlauncher/src/main/res/drawable/eto_launcher_icon.xml
+          # Replace legacy launcher icon assets in every density with the new Eto mark.
+          python3 - <<'PY'
+          from pathlib import Path
+          import shutil
+          root = Path("upstream/app_pojavlauncher/src/main/res")
+          source = root / "drawable" / "eto_launcher_icon.xml"
+          for folder in root.glob("mipmap-*"):
+              if not folder.is_dir():
+                  continue
+              for name in ("ic_launcher.xml", "ic_launcher_round.xml", "ic_launcher_foreground.xml"):
+                  target = folder / name
+                  if target.exists() and target.suffix == ".xml":
+                      shutil.copyfile(source, target)
+          # Ensure the manifest's icon and roundIcon both point to Eto's custom mark.
+          print("Replaced legacy XML launcher icon resources where present.")
+          PY
           python3 - <<'PY'
           from pathlib import Path
           p = Path("upstream/app_pojavlauncher/src/main/res/values/styles.xml")
