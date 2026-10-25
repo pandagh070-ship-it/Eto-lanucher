@@ -36,13 +36,17 @@ jobs:
           python3 - <<'PY'
           from pathlib import Path
           p = Path("upstream/app_pojavlauncher/build.gradle")
-          s = p.read_text(encoding="utf-8")
-          import re
-          s, count = re.subn(r'(resValue\\s+"string",\\s+"app_(?:short_)?name",\\s+")[^"]*(")', r'\\1Eto Launcher\\2', s)
-          if count < 4:
-              raise SystemExit(f"Expected to replace app names in all build variants, only changed {count}")
-          p.write_text(s, encoding="utf-8")
-          print(f"Replaced {count} app-name values with Eto Launcher.")
+          lines = p.read_text(encoding="utf-8").splitlines()
+          changed = 0
+          for i, line in enumerate(lines):
+              if "resValue" in line and ("'app_name'" in line or '"app_name"' in line or "'app_short_name'" in line or '"app_short_name"' in line):
+                  line = line.rsplit(",", 1)[0] + ', "Eto Launcher"'
+                  lines[i] = line
+                  changed += 1
+          if changed < 6:
+              raise SystemExit(f"Expected to replace 6 app name values, changed {changed}")
+          p.write_text("\n".join(lines) + "\n", encoding="utf-8")
+          print(f"Replaced {changed} app-name values with Eto Launcher.")
 
           manifest = Path("upstream/app_pojavlauncher/src/main/AndroidManifest.xml")
           import xml.etree.ElementTree as ET
