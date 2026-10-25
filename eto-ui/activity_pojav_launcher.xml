@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#10131B">
+    android:background="#191919">
 
     <com.kdt.mcgui.AccountSpinner
         android:id="@+id/account_spinner"
@@ -12,22 +12,23 @@
         android:layout_height="52dp"
         android:dropDownWidth="250dp"
         android:dropDownVerticalOffset="52dp"
-        android:paddingEnd="52dp"
         android:paddingStart="12dp"
-        android:background="#191F2D"
-        app:layout_constraintTop_toTopOf="parent"
+        android:paddingEnd="52dp"
+        android:background="#292929"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/setting_button"
+        app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlSymmetry" />
 
     <ImageButton
         android:id="@+id/setting_button"
         android:layout_width="52dp"
         android:layout_height="52dp"
-        android:background="#191F2D"
+        android:background="#292929"
         android:src="@drawable/ic_px_sliders"
         android:scaleType="fitCenter"
-        android:paddingVertical="8dp"
+        android:padding="10dp"
+        android:contentDescription="Launcher settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -36,7 +37,7 @@
         android:name="net.kdt.pojavlaunch.fragments.MainMenuFragment"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="#10131B"
+        android:background="#202020"
         app:layout_constraintBottom_toTopOf="@id/progress_layout"
         app:layout_constraintTop_toBottomOf="@id/account_spinner"
         app:layout_constraintStart_toStartOf="parent"
