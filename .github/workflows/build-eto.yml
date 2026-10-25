@@ -6,6 +6,7 @@ on:
     paths:
       - ".github/workflows/build-eto.yml"
       - "README.md"
+      - "eto-ui/**"
 
 permissions:
   contents: read
@@ -44,6 +45,11 @@ jobs:
 
           print("Eto app name applied. Keeping upstream manifest unchanged to avoid breaking XML parsing.")
           PY
+
+      - name: Apply Eto custom launcher interface
+        run: |
+          cp eto-ui/fragment_launcher.xml upstream/app_pojavlauncher/src/main/res/layout/fragment_launcher.xml
+          cp eto-ui/activity_pojav_launcher.xml upstream/app_pojavlauncher/src/main/res/layout/activity_pojav_launcher.xml
 
       - name: Build Eto debug APK
         working-directory: upstream
