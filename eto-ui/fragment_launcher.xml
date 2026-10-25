@@ -18,21 +18,21 @@
 <ImageButton android:id="@+id/edit_profile_button" android:layout_width="match_parent" android:layout_height="38dp" android:layout_marginTop="5dp" android:background="#F1F4F6" android:src="@drawable/ic_px_edit" android:contentDescription="Edit profile"/>
 <com.kdt.mcgui.MineButton android:id="@+id/play_button" android:layout_width="match_parent" android:layout_height="54dp" android:layout_marginTop="9dp" android:text="PLAY" android:textColor="#FFFFFF" android:textStyle="bold" android:backgroundTint="#19A765"/>
 </LinearLayout>
-<LinearLayout android:id="@+id/eto_news_area" android:layout_width="0dp" android:layout_height="0dp" android:orientation="vertical" android:padding="20dp" android:background="#F4F6F8" app:layout_constraintStart_toEndOf="@id/eto_sidebar" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent">
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="WELCOME BACK" android:textColor="#15945A" android:textSize="10sp" android:textStyle="bold" android:letterSpacing="0.12"/>
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Your Minecraft space" android:textColor="#18212B" android:textSize="24sp" android:textStyle="bold" android:paddingBottom="12dp"/>
-<ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:fillViewport="true">
-<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical">
-<FrameLayout android:layout_width="match_parent" android:layout_height="250dp" android:background="@drawable/eto_news_banner"><LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_gravity="bottom" android:orientation="vertical" android:padding="20dp" android:background="#CCFFFFFF">
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ETO LAUNCHER • JAVA EDITION" android:textColor="#15945A" android:textStyle="bold" android:textSize="11sp"/>
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="A fresh world awaits." android:textColor="#18212B" android:textSize="27sp" android:textStyle="bold"/>
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Your versions, your settings, your adventure." android:textColor="#536170" android:textSize="13sp"/>
-</LinearLayout></FrameLayout>
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="QUICK START" android:textColor="#18212B" android:textSize="16sp" android:textStyle="bold" android:paddingTop="22dp" android:paddingBottom="10dp"/>
-<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="18dp" android:background="#FFFFFF">
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Select a game version" android:textColor="#253240" android:textSize="15sp" android:textStyle="bold"/>
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Pick an installed profile in the left panel, then press PLAY." android:textColor="#667483" android:textSize="13sp" android:paddingTop="5dp"/>
+<LinearLayout android:id="@+id/eto_news_area" android:layout_width="0dp" android:layout_height="0dp" android:orientation="vertical" android:padding="24dp" android:background="#F4F6F8" app:layout_constraintStart_toEndOf="@id/eto_sidebar" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent">
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="YOUR GAME LIBRARY" android:textColor="#15945A" android:textSize="11sp" android:textStyle="bold" android:letterSpacing="0.12"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Choose a version" android:textColor="#18212B" android:textSize="30sp" android:textStyle="bold" android:paddingTop="5dp"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Select an installed Minecraft version to play, or add a new one." android:textColor="#536170" android:textSize="15sp" android:paddingTop="8dp" android:paddingBottom="22dp"/>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="22dp" android:background="#FFFFFF">
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="INSTALLED VERSIONS" android:textColor="#687684" android:textSize="11sp" android:textStyle="bold" android:paddingBottom="10dp"/>
+<com.kdt.mcgui.mcVersionSpinner android:id="@+id/eto_main_version_spinner" android:layout_width="match_parent" android:layout_height="54dp" android:background="#F1F4F6" android:drawableEnd="@drawable/spinner_arrow" app:drawableEndSize="18dp" app:drawableStartIntegerScaling="true" app:drawableStartSize="30dp" app:drawableEndPadding="3dp"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Choose the version you want to launch from the list above." android:textColor="#536170" android:textSize="13sp" android:paddingTop="10dp"/>
 </LinearLayout>
-</LinearLayout></ScrollView></LinearLayout>
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginTop="14dp" android:padding="22dp" android:background="#FFFFFF">
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="NEED ANOTHER VERSION?" android:textColor="#15945A" android:textSize="11sp" android:textStyle="bold"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Add Minecraft versions and manage your profiles from the left panel." android:textColor="#536170" android:textSize="14sp" android:paddingTop="7dp"/>
+</LinearLayout>
+<View android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ETO LAUNCHER  •  JAVA EDITION" android:textColor="#8A96A3" android:textSize="11sp" android:gravity="end"/>
+</LinearLayout>
 <View android:id="@+id/_background_display_view" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
