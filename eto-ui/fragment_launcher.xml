@@ -9,6 +9,7 @@
 <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginTop="16dp" android:layout_marginBottom="16dp" android:background="#E6EAF0"/>
 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="GAME SETUP" android:textColor="#8A96A3" android:textSize="11sp" android:textStyle="bold" android:paddingBottom="8dp"/>
 
+<com.kdt.mcgui.LauncherMenuButton android:id="@+id/customize_button" android:layout_width="match_parent" android:layout_height="44dp" android:layout_marginBottom="8dp" android:text="  Customize" android:textColor="#293543" android:backgroundTint="#E9F8F0" android:drawableStart="@drawable/ic_eto_edit"/>
 <com.kdt.mcgui.LauncherMenuButton android:id="@+id/custom_control_button" android:layout_width="match_parent" android:layout_height="44dp" android:text="  Controls" android:textColor="#293543" android:backgroundTint="#F3F5F7" android:drawableStart="@drawable/ic_eto_controls"/>
 <com.kdt.mcgui.LauncherMenuButton android:id="@+id/open_files_button" android:layout_width="match_parent" android:layout_height="44dp" android:text="  Game files" android:textColor="#293543" android:backgroundTint="#F3F5F7" android:drawableStart="@drawable/ic_eto_folder"/>
 <com.kdt.mcgui.LauncherMenuButton android:id="@+id/share_logs_button" android:layout_width="match_parent" android:layout_height="44dp" android:text="  Debug logs" android:textColor="#293543" android:backgroundTint="#F3F5F7" android:drawableStart="@drawable/ic_eto_logs"/>
