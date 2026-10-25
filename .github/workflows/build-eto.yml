@@ -29,18 +29,23 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Prepare Eto branding
+      - name: Apply Eto app name
         shell: bash
         run: |
           set -e
           STRINGS="upstream/app_pojavlauncher/src/main/res/values/strings.xml"
-          if [ -f "$STRINGS" ]; then
-            echo "Launcher strings file found."
-            grep -n -m 3 -E 'app_name|PojavLauncher' "$STRINGS" || true
-          else
-            echo "Could not find expected strings file; stopping rather than producing an unbranded APK."
-            exit 1
-          fi
+          test -f "$STRINGS"
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path("upstream/app_pojavlauncher/src/main/res/values/strings.xml")
+          s = p.read_text(encoding="utf-8")
+          old = '<string name="app_short_name">PojavLauncher</string>'
+          new = '<string name="app_short_name">Eto Launcher</string>'
+          if old not in s:
+              raise SystemExit("Could not locate expected app label; stopping the build.")
+          p.write_text(s.replace(old, new, 1), encoding="utf-8")
+          print("App label set to Eto Launcher.")
+          PY
 
       - name: Build debug APK
         working-directory: upstream
