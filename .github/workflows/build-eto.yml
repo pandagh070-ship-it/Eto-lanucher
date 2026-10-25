@@ -77,7 +77,7 @@ jobs:
           styles = Path("upstream/app_pojavlauncher/src/main/res/values/styles.xml")
           text = styles.read_text(encoding="utf-8")
           theme = '<style name="MojoLauncher" parent="@style/Theme.AppCompat.NoActionBar">'
-          contrast = theme + '\n        <item name="textColorPrimary">#18212B</item>\n        <item name="textColorSecondary">#536170</item>\n        <item name="colorControlNormal">#314052</item>\n        <item name="colorControlActivated">#15945A</item>\n        <item name="colorAccent">#15945A</item>'
+          contrast = theme + '\n        <item name="android:textColorPrimary">#18212B</item>\n        <item name="android:textColorSecondary">#536170</item>\n        <item name="colorControlNormal">#314052</item>\n        <item name="colorControlActivated">#15945A</item>\n        <item name="colorAccent">#15945A</item>'
           if theme not in text:
               raise SystemExit("Could not find MojoLauncher theme in styles.xml")
           text = text.replace(theme, contrast, 1)
