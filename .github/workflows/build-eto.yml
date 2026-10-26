@@ -78,7 +78,7 @@ jobs:
           styles = Path("upstream/app_pojavlauncher/src/main/res/values/styles.xml")
           text = styles.read_text(encoding="utf-8")
           theme = '<style name="MojoLauncher" parent="@style/Theme.AppCompat.NoActionBar">'
-          contrast = theme + '\n        <item name="android:textColorPrimary">#F2F5F9</item>\n        <item name="android:textColorSecondary">#B8C2CE</item>\n        <item name="colorControlNormal">#314052</item>\n        <item name="colorControlActivated">#15945A</item>\n        <item name="colorAccent">#15945A</item>'
+          contrast = theme + '\n        <item name="android:textColorPrimary">#F2F5F9</item>\n        <item name="android:textColorSecondary">#B8C2CE</item>\n        <item name="colorControlNormal">#314052</item>\n        <item name="colorControlActivated">#15945A</item>\n        <item name="colorAccent">#15945A</item>\n        <item name="android:statusBarColor">#000000</item>\n        <item name="android:navigationBarColor">#000000</item>\n        <item name="android:windowLightStatusBar">false</item>\n        <item name="android:windowLightNavigationBar">false</item>'
           if theme not in text:
               raise SystemExit("Could not find MojoLauncher theme in styles.xml")
           text = text.replace(theme, contrast, 1)
@@ -131,7 +131,7 @@ jobs:
                   <item name="android:textColorPrimary">#F2F5F9</item>
                   <item name="android:textColorSecondary">#B8C2CE</item>
                   <item name="android:textColor">#F2F5F9</item>
-                  <item name="colorAccent">#19A765</item>'''
+                  <item name="colorAccent">#19A765</item>\n                <item name="android:statusBarColor">#000000</item>\n                <item name="android:navigationBarColor">#000000</item>\n                <item name="android:windowLightStatusBar">false</item>\n                <item name="android:windowLightNavigationBar">false</item>'''
           if anchor not in s:
               raise SystemExit("Could not find MojoLauncher theme in styles.xml")
           s = s.replace(anchor, fix, 1)
