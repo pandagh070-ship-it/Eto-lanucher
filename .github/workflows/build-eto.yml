@@ -78,7 +78,7 @@ jobs:
           styles = Path("upstream/app_pojavlauncher/src/main/res/values/styles.xml")
           text = styles.read_text(encoding="utf-8")
           theme = '<style name="MojoLauncher" parent="@style/Theme.AppCompat.NoActionBar">'
-          contrast = theme + '\n        <item name="android:textColorPrimary">#F2F5F9</item>\n        <item name="android:textColorSecondary">#B8C2CE</item>\n        <item name="colorControlNormal">#314052</item>\n        <item name="colorControlActivated">#15945A</item>\n        <item name="colorAccent">#15945A</item>\n        <item name="android:statusBarColor">#000000</item>\n        <item name="android:navigationBarColor">#000000</item>\n        <item name="android:windowLightStatusBar">false</item>\n        <item name="android:windowLightNavigationBar">false</item>'
+          contrast = theme + '\n        <item name="android:textColorPrimary">#F2F5F9</item>\n        <item name="android:textColorSecondary">#B8C2CE</item>\n        <item name="colorControlNormal">#314052</item>\n        <item name="colorControlActivated">#15945A</item>\n        <item name="colorAccent">#15945A</item>\n        <item name="android:statusBarColor">#000000</item>\n        <item name="android:navigationBarColor">#000000</item>\n        <item name="android:windowLightStatusBar">false</item>\n        <item name="android:windowLightNavigationBar">false</item>\n        <item name="android:windowBackground">#000000</item>\n        <item name="android:colorBackground">#000000</item>'
           if theme not in text:
               raise SystemExit("Could not find MojoLauncher theme in styles.xml")
           text = text.replace(theme, contrast, 1)
@@ -121,22 +121,6 @@ jobs:
                       shutil.copyfile(source, target)
           # Ensure the manifest's icon and roundIcon both point to Eto's custom mark.
           print("Replaced legacy XML launcher icon resources where present.")
-          PY
-          python3 - <<'PY'
-          from pathlib import Path
-          p = Path("upstream/app_pojavlauncher/src/main/res/values/styles.xml")
-          s = p.read_text(encoding="utf-8")
-          anchor = '<style name="MojoLauncher" parent="@style/Theme.AppCompat.NoActionBar">'
-          fix = anchor + '''
-                  <item name="android:textColorPrimary">#F2F5F9</item>
-                  <item name="android:textColorSecondary">#B8C2CE</item>
-                  <item name="android:textColor">#F2F5F9</item>
-                  <item name="colorAccent">#19A765</item>\n                <item name="android:statusBarColor">#000000</item>\n                <item name="android:navigationBarColor">#000000</item>\n                <item name="android:windowLightStatusBar">false</item>\n                <item name="android:windowLightNavigationBar">false</item>'''
-          if anchor not in s:
-              raise SystemExit("Could not find MojoLauncher theme in styles.xml")
-          s = s.replace(anchor, fix, 1)
-          p.write_text(s, encoding="utf-8")
-          print("Applied dark default text colors to launcher and settings theme.")
           PY
 
       - name: Add functional Eto customization
