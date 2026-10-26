@@ -60,7 +60,7 @@ methods = r'''
     private void applyEtoCustomization(@Nullable View root) {
         if (root == null || !isAdded()) return;
         android.content.SharedPreferences prefs = requireContext().getSharedPreferences("eto_style", 0);
-        tintEtoText(root, prefs.getInt("text", Color.rgb(24,33,43)));
+        tintEtoText(root, prefs.getInt("text", Color.rgb(242,245,249)));
         try {
             String image = prefs.getString("image", null), video = prefs.getString("video", null);
             View sidebar = root.findViewById(R.id.eto_sidebar);
@@ -100,10 +100,10 @@ methods = r'''
                         if (sidebar != null) sidebar.setBackgroundColor(Color.TRANSPARENT);
                     }
                 } else {
-                    root.setBackgroundColor(Color.rgb(244,246,248));
+                    root.setBackgroundColor(Color.rgb(18,22,28));
                     View panel = root.findViewById(R.id.eto_news_area);
-                    if (panel != null) panel.setBackgroundColor(Color.rgb(244,246,248));
-                    if (sidebar != null) sidebar.setBackgroundColor(Color.WHITE);
+                    if (panel != null) panel.setBackgroundColor(Color.rgb(27,34,44));
+                    if (sidebar != null) sidebar.setBackgroundColor(Color.rgb(27,34,44));
                 }
             }
         } catch (Exception ex) {
