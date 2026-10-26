@@ -106,6 +106,7 @@ jobs:
           cp eto-ui/ic_eto_logs.xml upstream/app_pojavlauncher/src/main/res/drawable/ic_eto_logs.xml
           cp eto-ui/ic_eto_edit.xml upstream/app_pojavlauncher/src/main/res/drawable/ic_eto_edit.xml
           cp eto-ui/ic_eto_settings.xml upstream/app_pojavlauncher/src/main/res/drawable/ic_eto_settings.xml
+          cp eto-ui/ic_eto_account.xml upstream/app_pojavlauncher/src/main/res/drawable/ic_eto_account.xml
           # Replace legacy launcher icon assets in every density with the new Eto mark.
           python3 - <<'PY'
           from pathlib import Path
