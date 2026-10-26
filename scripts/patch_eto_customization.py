@@ -87,6 +87,7 @@ methods = r'''
                 player.setVisibility(View.VISIBLE);
                 View panel = root.findViewById(R.id.eto_news_area);
                 if (panel != null) panel.setBackgroundColor(Color.TRANSPARENT);
+                makeEtoPanelsTransparent(root);
             } else {
                 VideoView vv = root.findViewWithTag("eto-video");
                 if (vv != null) vv.setVisibility(View.GONE);
@@ -97,6 +98,7 @@ methods = r'''
                         root.setBackground(d);
                         View panel = root.findViewById(R.id.eto_news_area);
                         if (panel != null) panel.setBackgroundColor(Color.TRANSPARENT);
+                makeEtoPanelsTransparent(root);
                         if (sidebar != null) sidebar.setBackgroundColor(Color.TRANSPARENT);
                     }
                 } else {
@@ -108,6 +110,17 @@ methods = r'''
             }
         } catch (Exception ex) {
             Toast.makeText(requireContext(), "Could not apply background", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void makeEtoPanelsTransparent(View v) {
+        if (v instanceof ViewGroup) {
+            ViewGroup g = (ViewGroup)v;
+            for (int i=0; i<g.getChildCount(); i++) {
+                View child = g.getChildAt(i);
+                if (child instanceof android.widget.LinearLayout) child.setBackgroundColor(Color.TRANSPARENT);
+                if (child instanceof ViewGroup) makeEtoPanelsTransparent(child);
+            }
         }
     }
 
