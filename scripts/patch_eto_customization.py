@@ -19,6 +19,10 @@ if "showEtoCustomization()" not in s:
     s = s.replace(needle, needle + """
         Button customizeButton = view.findViewById(R.id.customize_button);
         customizeButton.setOnClickListener(v -> showEtoCustomization());
+        View etoSettings = view.findViewById(R.id.eto_settings_button);
+        if (etoSettings != null) etoSettings.setOnClickListener(v -> { View oldSettings = requireActivity().findViewById(R.id.setting_button); if (oldSettings != null) oldSettings.performClick(); });
+        View etoAccount = view.findViewById(R.id.eto_account_button);
+        if (etoAccount != null) etoAccount.setOnClickListener(v -> { View account = requireActivity().findViewById(R.id.account_spinner); if (account != null) account.performClick(); });
         applyEtoCustomization(view);
 """, 1)
 
