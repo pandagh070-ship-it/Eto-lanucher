@@ -7,6 +7,7 @@ on:
       - ".github/workflows/build-eto.yml"
       - "README.md"
       - "eto-ui/**"
+      - "scripts/**"
 
 permissions:
   contents: read
