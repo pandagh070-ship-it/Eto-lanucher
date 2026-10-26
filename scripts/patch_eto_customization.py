@@ -63,7 +63,10 @@ methods = r'''
         tintEtoText(root, prefs.getInt("text", Color.rgb(24,33,43)));
         try {
             String image = prefs.getString("image", null), video = prefs.getString("video", null);
+            View sidebar = root.findViewById(R.id.eto_sidebar);
             if (video != null && root instanceof ViewGroup) {
+                root.setBackgroundColor(Color.TRANSPARENT);
+                if (sidebar != null) sidebar.setBackgroundColor(Color.TRANSPARENT);
                 VideoView vv = root.findViewWithTag("eto-video");
                 if (vv == null) {
                     vv = new VideoView(requireContext());
@@ -89,13 +92,18 @@ methods = r'''
                 if (vv != null) vv.setVisibility(View.GONE);
                 if (image != null) {
                     Drawable d = Drawable.createFromStream(requireContext().getContentResolver().openInputStream(Uri.parse(image)), null);
-                    root.setBackground(d);
-                    View panel = root.findViewById(R.id.eto_news_area);
-                    if (panel != null) panel.setBackground(d);
+                    if (d != null) {
+                        d.setAlpha(255);
+                        root.setBackground(d);
+                        View panel = root.findViewById(R.id.eto_news_area);
+                        if (panel != null) panel.setBackgroundColor(Color.TRANSPARENT);
+                        if (sidebar != null) sidebar.setBackgroundColor(Color.TRANSPARENT);
+                    }
                 } else {
                     root.setBackgroundColor(Color.rgb(244,246,248));
                     View panel = root.findViewById(R.id.eto_news_area);
                     if (panel != null) panel.setBackgroundColor(Color.rgb(244,246,248));
+                    if (sidebar != null) sidebar.setBackgroundColor(Color.WHITE);
                 }
             }
         } catch (Exception ex) {
