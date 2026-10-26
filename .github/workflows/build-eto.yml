@@ -10,7 +10,7 @@ on:
       - "scripts/**"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -139,3 +139,12 @@ jobs:
           path: upstream/app_pojavlauncher/build/outputs/apk/full/debug/*.apk
           if-no-files-found: error
           retention-days: 7
+
+      - name: Publish APK as a public GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: eto-build-${{ github.run_number }}
+          name: Eto Launcher build ${{ github.run_number }}
+          prerelease: true
+          make_latest: true
+          files: upstream/app_pojavlauncher/build/outputs/apk/full/debug/*.apk
