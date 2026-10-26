@@ -68,7 +68,7 @@ methods = r'''
                 if (vv == null) {
                     vv = new VideoView(requireContext());
                     vv.setTag("eto-video");
-                    vv.setAlpha(0.30f);
+                    vv.setAlpha(1.0f);
                     androidx.constraintlayout.widget.ConstraintLayout.LayoutParams lp = new androidx.constraintlayout.widget.ConstraintLayout.LayoutParams(-1, -1);
                     lp.startToStart = androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID;
                     lp.endToEnd = androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID;
