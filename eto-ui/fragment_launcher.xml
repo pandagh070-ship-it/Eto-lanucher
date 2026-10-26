@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/fragment_menu_main" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#12161C">
-<LinearLayout android:id="@+id/eto_sidebar" android:layout_width="210dp" android:layout_height="0dp" android:orientation="vertical" android:padding="14dp" android:background="#1B222C" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent">
+<LinearLayout android:id="@+id/eto_sidebar" android:layout_width="210dp" android:layout_height="0dp" android:orientation="vertical" android:padding="14dp" android:paddingTop="68dp" android:background="#1B222C" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent">
 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ETO" android:textColor="#F2F5F9" android:textSize="30sp" android:textStyle="bold" android:paddingTop="6dp"/>
 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="JAVA LAUNCHER" android:textColor="#B8C2CE" android:textSize="11sp" android:letterSpacing="0.12" android:paddingBottom="24dp"/>
 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="LIBRARY" android:textColor="#A8B4C2" android:textSize="11sp" android:textStyle="bold" android:paddingBottom="8dp"/>
@@ -16,10 +16,10 @@
 <View android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="READY TO PLAY" android:textColor="#AAB5C2" android:textSize="10sp" android:textStyle="bold" android:paddingBottom="6dp"/>
 
-<ImageButton android:id="@+id/edit_profile_button" android:layout_width="match_parent" android:layout_height="38dp" android:layout_marginTop="5dp" android:background="#252E3A" android:src="@drawable/ic_eto_edit" android:contentDescription="Edit profile"/>
+
 
 </LinearLayout>
-<LinearLayout android:id="@+id/eto_news_area" android:layout_width="0dp" android:layout_height="0dp" android:orientation="vertical" android:padding="24dp" android:background="#12161C" app:layout_constraintStart_toEndOf="@id/eto_sidebar" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent">
+<LinearLayout android:id="@+id/eto_news_area" android:layout_width="0dp" android:layout_height="0dp" android:orientation="vertical" android:padding="24dp" android:paddingTop="56dp" android:background="#12161C" app:layout_constraintStart_toEndOf="@id/eto_sidebar" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent">
 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="YOUR GAME LIBRARY" android:textColor="#15945A" android:textSize="11sp" android:textStyle="bold" android:letterSpacing="0.12"/>
 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Choose a version" android:textColor="#F2F5F9" android:textSize="30sp" android:textStyle="bold" android:paddingTop="5dp"/>
 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Select an installed Minecraft version to play, or add a new one." android:textColor="#C0CAD6" android:textSize="15sp" android:paddingTop="8dp" android:paddingBottom="22dp"/>
@@ -36,6 +36,8 @@
 <View android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ETO LAUNCHER  •  JAVA EDITION" android:textColor="#A8B4C2" android:textSize="11sp" android:gravity="end"/>
 </LinearLayout>
-<com.kdt.mcgui.MineButton android:id="@+id/play_button" android:layout_width="156dp" android:layout_height="48dp" android:layout_marginEnd="18dp" android:layout_marginBottom="14dp" android:text="▶  PLAY" android:textColor="#1B222C" android:textStyle="bold" android:textSize="15sp" android:elevation="12dp" android:backgroundTint="#128653" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
+<ImageButton android:id="@+id/eto_settings_button" android:layout_width="48dp" android:layout_height="48dp" android:layout_marginTop="8dp" android:layout_marginEnd="72dp" android:background="#252E3A" android:src="@drawable/ic_eto_settings" android:contentDescription="Settings" android:elevation="8dp" app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
+<ImageButton android:id="@+id/edit_profile_button" android:layout_width="48dp" android:layout_height="48dp" android:layout_marginTop="8dp" android:layout_marginEnd="16dp" android:background="#252E3A" android:src="@drawable/ic_eto_edit" android:contentDescription="Account" android:elevation="8dp" app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
+<com.kdt.mcgui.MineButton android:id="@+id/play_button" android:layout_width="156dp" android:layout_height="56dp" android:layout_marginEnd="20dp" android:layout_marginBottom="18dp" android:text="▶  PLAY" android:textColor="#1B222C" android:textStyle="bold" android:textSize="15sp" android:elevation="12dp" android:backgroundTint="#128653" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
 <View android:id="@+id/_background_display_view" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
