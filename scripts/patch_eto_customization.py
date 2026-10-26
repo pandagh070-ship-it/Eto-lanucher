@@ -69,17 +69,34 @@ methods = r'''
                     vv = new VideoView(requireContext());
                     vv.setTag("eto-video");
                     vv.setAlpha(0.30f);
-                    ((ViewGroup)root).addView(vv, 0, new ViewGroup.LayoutParams(-1,-1));
+                    androidx.constraintlayout.widget.ConstraintLayout.LayoutParams lp = new androidx.constraintlayout.widget.ConstraintLayout.LayoutParams(-1, -1);
+                    lp.startToStart = androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID;
+                    lp.endToEnd = androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID;
+                    lp.topToTop = androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID;
+                    lp.bottomToBottom = androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID;
+                    vv.setClickable(false);
+                    vv.setFocusable(false);
+                    ((ViewGroup)root).addView(vv, 0, lp);
                 }
                 final VideoView player = vv;
                 player.setVideoURI(Uri.parse(video));
                 player.setOnPreparedListener(mp -> { mp.setLooping(true); mp.setVolume(0f,0f); player.start(); });
                 player.setVisibility(View.VISIBLE);
+                View panel = root.findViewById(R.id.eto_news_area);
+                if (panel != null) panel.setBackgroundColor(Color.TRANSPARENT);
             } else {
                 VideoView vv = root.findViewWithTag("eto-video");
                 if (vv != null) vv.setVisibility(View.GONE);
-                if (image != null) root.setBackground(Drawable.createFromStream(requireContext().getContentResolver().openInputStream(Uri.parse(image)), null));
-                else root.setBackgroundColor(Color.rgb(244,246,248));
+                if (image != null) {
+                    Drawable d = Drawable.createFromStream(requireContext().getContentResolver().openInputStream(Uri.parse(image)), null);
+                    root.setBackground(d);
+                    View panel = root.findViewById(R.id.eto_news_area);
+                    if (panel != null) panel.setBackground(d);
+                } else {
+                    root.setBackgroundColor(Color.rgb(244,246,248));
+                    View panel = root.findViewById(R.id.eto_news_area);
+                    if (panel != null) panel.setBackgroundColor(Color.rgb(244,246,248));
+                }
             }
         } catch (Exception ex) {
             Toast.makeText(requireContext(), "Could not apply background", Toast.LENGTH_SHORT).show();
