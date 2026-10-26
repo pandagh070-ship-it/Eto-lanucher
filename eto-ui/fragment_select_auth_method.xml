@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#F4F6F8" android:padding="22dp">
-<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_gravity="center" android:orientation="vertical" android:padding="24dp" android:background="#FFFFFF">
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Choose your account" android:textColor="#18212B" android:textSize="27sp" android:textStyle="bold" android:paddingBottom="5dp"/>
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Connect an account or continue locally." android:textColor="#687684" android:textSize="14sp" android:paddingBottom="20dp"/>
-<com.kdt.mcgui.MineButton android:id="@+id/button_microsoft_authentication" android:layout_width="match_parent" android:layout_height="50dp" android:text="Continue with Microsoft" android:textColor="#FFFFFF" android:backgroundTint="#19A765"/>
-<com.kdt.mcgui.MineButton android:id="@+id/button_elyby_authentication" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginTop="12dp" android:text="Sign in with Ely.by" android:textColor="#18212B" android:backgroundTint="#E8EDF1"/>
-<com.kdt.mcgui.MineButton android:id="@+id/button_local_authentication" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginTop="12dp" android:text="Play as guest" android:textColor="#18212B" android:backgroundTint="#E8EDF1"/>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#12161C" android:padding="22dp">
+<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_gravity="center" android:orientation="vertical" android:padding="24dp" android:background="#1B222C">
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Choose your account" android:textColor="#F2F5F9" android:textSize="27sp" android:textStyle="bold" android:paddingBottom="5dp"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Connect an account or continue locally." android:textColor="#B8C2CE" android:textSize="14sp" android:paddingBottom="20dp"/>
+<com.kdt.mcgui.MineButton android:id="@+id/button_microsoft_authentication" android:layout_width="match_parent" android:layout_height="50dp" android:text="Continue with Microsoft" android:textColor="#1B222C" android:backgroundTint="#19A765"/>
+<com.kdt.mcgui.MineButton android:id="@+id/button_elyby_authentication" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginTop="12dp" android:text="Sign in with Ely.by" android:textColor="#F2F5F9" android:backgroundTint="#252E3A"/>
+<com.kdt.mcgui.MineButton android:id="@+id/button_local_authentication" android:layout_width="match_parent" android:layout_height="50dp" android:layout_marginTop="12dp" android:text="Play as guest" android:textColor="#F2F5F9" android:backgroundTint="#252E3A"/>
 </LinearLayout></FrameLayout>
