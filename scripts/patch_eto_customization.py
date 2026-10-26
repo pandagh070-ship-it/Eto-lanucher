@@ -125,3 +125,70 @@ if "ETO_PICK_IMAGE" not in s:
     s = s[:pos] + "\n" + methods + s[pos:]
 p.write_text(s, encoding="utf-8")
 print("Eto background and text color customization patched.")
+
+
+# Add a lightweight in-game FPS estimate overlay to the game activity.
+game = Path("upstream/app_pojavlauncher/src/main/java/net/kdt/pojavlaunch/game/GameActivity.java")
+g = game.read_text(encoding="utf-8")
+for imp in [
+    "import android.view.Choreographer;",
+    "import android.view.Gravity;",
+    "import android.widget.FrameLayout;"
+]:
+    if imp not in g:
+        g = g.replace("import android.view.View;", "import android.view.View;\n" + imp, 1)
+if "installEtoFpsCounter();" not in g:
+    anchor = "        initLayout(R.layout.activity_basemain);"
+    if anchor not in g:
+        raise SystemExit("GameActivity layout insertion point missing")
+    g = g.replace(anchor, anchor + "\n        installEtoFpsCounter();", 1)
+if "private void installEtoFpsCounter()" not in g:
+    methods = r'''
+    private void installEtoFpsCounter() {
+        final FrameLayout overlay = (FrameLayout) getWindow().getDecorView().findViewById(android.R.id.content);
+        if (overlay == null) return;
+        final TextView fps = new TextView(this);
+        fps.setText("FPS: --");
+        fps.setTextColor(Color.WHITE);
+        fps.setTextSize(12f);
+        fps.setTypeface(android.graphics.Typeface.MONOSPACE, android.graphics.Typeface.BOLD);
+        fps.setPadding(10, 5, 10, 5);
+        android.graphics.drawable.GradientDrawable bg = new android.graphics.drawable.GradientDrawable();
+        bg.setColor(0x990D1117);
+        bg.setCornerRadius(10f);
+        fps.setBackground(bg);
+        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
+            Gravity.TOP | Gravity.END);
+        lp.topMargin = 12;
+        lp.rightMargin = 12;
+        overlay.addView(fps, lp);
+        final int[] frames = {0};
+        final long[] start = {System.nanoTime()};
+        final Choreographer choreographer = Choreographer.getInstance();
+        final Choreographer.FrameCallback[] callback = new Choreographer.FrameCallback[1];
+        callback[0] = frameTimeNanos -> {
+            if (isFinishing() || isDestroyed()) {
+                overlay.removeView(fps);
+                return;
+            }
+            frames[0]++;
+            long now = System.nanoTime();
+            long elapsed = now - start[0];
+            if (elapsed >= 1_000_000_000L) {
+                int rate = Math.round(frames[0] * 1_000_000_000f / elapsed);
+                fps.setText("FPS: " + rate);
+                frames[0] = 0;
+                start[0] = now;
+            }
+            choreographer.postFrameCallback(callback[0]);
+        };
+        choreographer.postFrameCallback(callback[0]);
+    }
+'''
+    pos = g.rfind("\n}")
+    if pos < 0:
+        raise SystemExit("GameActivity closing brace missing")
+    g = g[:pos] + "\n" + methods + g[pos:]
+game.write_text(g, encoding="utf-8")
+print("Added a lightweight in-game frame-rate overlay.")
