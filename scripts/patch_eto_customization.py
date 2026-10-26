@@ -3,9 +3,9 @@ from pathlib import Path
 p = Path("upstream/app_pojavlauncher/src/main/java/net/kdt/pojavlaunch/fragments/MainMenuFragment.java")
 s = p.read_text(encoding="utf-8")
 imports = [
-    ("import android.content.Intent;", "import android.content.Intent;\nimport android.net.Uri;"),
-    ("import android.view.View;", "import android.view.View;\nimport android.view.ViewGroup;"),
-    ("import android.widget.Toast;", "import android.widget.Toast;\nimport android.widget.TextView;\nimport android.widget.VideoView;"),
+    ("import android.content.Intent;", "import android.content.Intent;\nimport android.net.Uri;\nimport android.media.AudioAttributes;"),
+    ("import android.view.View;", "import android.view.View;\nimport android.view.ViewGroup;\nimport android.view.MotionEvent;"),
+    ("import android.widget.Toast;", "import android.widget.Toast;\nimport android.widget.TextView;\nimport android.widget.VideoView;\nimport android.media.MediaPlayer;"),
     ("import android.os.Bundle;", "import android.os.Bundle;\nimport android.graphics.Color;\nimport android.graphics.drawable.Drawable;")
 ]
 for old, new in imports:
@@ -32,7 +32,7 @@ methods = r'''
 
     private void showEtoCustomization() {
         new AlertDialog.Builder(requireContext()).setTitle("Eto customization")
-            .setItems(new String[]{"Choose image background", "Choose video background", "Text color: dark", "Text color: white", "Text color: green", "Reset customization"}, (d, which) -> {
+            .setItems(new String[]{"Choose image background", "Choose video background", "Choose music file", "Use video as music source", "Text color: dark", "Text color: white", "Text color: green", "Reset customization"}, (d, which) -> {
                 if (which < 2) {
                     Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                     i.addCategory(Intent.CATEGORY_OPENABLE);
@@ -51,7 +51,7 @@ methods = r'''
 
     @Override public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data == null || data.getData() == null || (requestCode != ETO_PICK_IMAGE && requestCode != ETO_PICK_VIDEO)) return;
+        if (data == null || data.getData() == null || (requestCode != ETO_PICK_IMAGE && requestCode != ETO_PICK_VIDEO && requestCode != ETO_PICK_MUSIC_AUDIO && requestCode != ETO_PICK_MUSIC_VIDEO)) return;
         Uri uri = data.getData();
         try { requireContext().getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION); } catch (Exception ignored) {}
         android.content.SharedPreferences.Editor e = requireContext().getSharedPreferences("eto_style", 0).edit();
