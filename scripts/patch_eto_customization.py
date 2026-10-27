@@ -85,7 +85,7 @@ methods = r'''
 
         e.apply();
         applyEtoCustomization(getView());
-        if (requestCode == ETO_PICK_VIDEO) startEtoMusicIfAvailable();
+
     }
 
     private void saveEtoBackground() {
