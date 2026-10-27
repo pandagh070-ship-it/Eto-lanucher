@@ -35,52 +35,43 @@ methods = r'''
     private void showEtoCustomization() {
         android.widget.LinearLayout panel = new android.widget.LinearLayout(requireContext());
         panel.setOrientation(android.widget.LinearLayout.VERTICAL);
-        panel.setPadding(20, 8, 20, 8);
+        panel.setPadding(16, 8, 16, 8);
         android.widget.TextView intro = new android.widget.TextView(requireContext());
-        intro.setText("PERSONALIZE YOUR HOME");
-        intro.setTextSize(12);
-        intro.setTextColor(Color.GRAY);
-        intro.setPadding(4, 8, 4, 14);
+        intro.setText("HOME LOOK & BACKGROUNDS");
+        intro.setTextSize(12); intro.setTextColor(Color.GRAY); intro.setPadding(4, 8, 4, 14);
         panel.addView(intro);
         android.widget.GridLayout grid = new android.widget.GridLayout(requireContext());
-        grid.setColumnCount(2);
-        panel.addView(grid);
-        String[] labels = {"🖼  Image background", "🎞  Video background", "💾  Save background", "📚  Saved backgrounds", "Aa  Text: dark", "Aa  Text: white", "Aa  Text: green", "↺  Reset"};
+        grid.setColumnCount(2); panel.addView(grid);
+        String[] labels = {"Image background", "Video background", "Save current", "Saved backgrounds", "Text: dark", "Text: white", "Text: green", "Reset"};
         for (int n = 0; n < labels.length; n++) {
             final int which = n;
             android.widget.Button button = new android.widget.Button(requireContext());
-            button.setText(labels[n]);
-            button.setTextSize(12);
+            button.setText(labels[n]); button.setTextSize(12);
             android.widget.GridLayout.LayoutParams lp = new android.widget.GridLayout.LayoutParams();
-            lp.width = 0;
-            lp.height = android.widget.GridLayout.LayoutParams.WRAP_CONTENT;
-            lp.columnSpec = android.widget.GridLayout.spec(n % 2, 1f);
-            lp.setMargins(4, 4, 4, 4);
+            lp.width = 0; lp.height = android.widget.GridLayout.LayoutParams.WRAP_CONTENT;
+            lp.columnSpec = android.widget.GridLayout.spec(n % 2, 1f); lp.setMargins(4,4,4,4);
             grid.addView(button, lp);
             button.setOnClickListener(v -> {
-                android.app.Dialog dialog = (android.app.Dialog) panel.getTag();
-                if (dialog != null) dialog.dismiss();
-                if (which < 3) {
+                android.app.Dialog old = (android.app.Dialog) panel.getTag();
+                if (old != null) old.dismiss();
+                if (which < 2) {
                     Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                    i.addCategory(Intent.CATEGORY_OPENABLE);
-                    i.setType(which == 0 ? "image/*" : which == 1 ? "video/*" : "audio/*");
-                    startActivityForResult(i, which == 0 ? ETO_PICK_IMAGE : which == 1 ? ETO_PICK_VIDEO : ETO_PICK_MUSIC);
-                } else if (which == 3) saveEtoBackground();
-                else if (which == 4) showSavedEtoBackgrounds();
-                else if (which < 8) {
+                    i.addCategory(Intent.CATEGORY_OPENABLE); i.setType(which == 0 ? "image/*" : "video/*");
+                    startActivityForResult(i, which == 0 ? ETO_PICK_IMAGE : ETO_PICK_VIDEO);
+                } else if (which == 2) saveEtoBackground();
+                else if (which == 3) showSavedEtoBackgrounds();
+                else if (which < 7) {
                     int[] colors = {Color.rgb(24,33,43), Color.WHITE, Color.rgb(21,148,90)};
                     requireContext().getSharedPreferences("eto_style", 0).edit().putInt("text", colors[which-4]).apply();
                     applyEtoCustomization(getView());
                 } else {
                     requireContext().getSharedPreferences("eto_style", 0).edit().clear().apply();
-                    stopEtoMusic();
                     applyEtoCustomization(getView());
                 }
             });
         }
         AlertDialog dialog = new AlertDialog.Builder(requireContext()).setTitle("Eto Studio").setView(panel).setNegativeButton("Close", null).create();
-        panel.setTag(dialog);
-        dialog.show();
+        panel.setTag(dialog); dialog.show();
     }
 
     @Override public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -112,86 +103,53 @@ methods = r'''
         java.util.ArrayList<String> keys = new java.util.ArrayList<>();
         java.util.ArrayList<String> values = new java.util.ArrayList<>();
         for (String key : p.getAll().keySet()) if (key.startsWith("saved_bg_")) {
-            keys.add(key);
-            values.add(p.getString(key, ""));
+            String value = p.getString(key, "");
+            if (value.contains("|")) { keys.add(key); values.add(value); }
         }
         if (keys.isEmpty()) { Toast.makeText(requireContext(), "No saved backgrounds yet", Toast.LENGTH_SHORT).show(); return; }
         android.widget.ScrollView scroll = new android.widget.ScrollView(requireContext());
         android.widget.LinearLayout list = new android.widget.LinearLayout(requireContext());
-        list.setOrientation(android.widget.LinearLayout.VERTICAL);
-        list.setPadding(12, 8, 12, 8);
-        scroll.addView(list);
-        android.app.AlertDialog savedDialog = new AlertDialog.Builder(requireContext()).setTitle("Saved backgrounds").setView(scroll).setNegativeButton("Close", null).create();
-        for (int n = 0; n < keys.size(); n++) {
-            final int index = n;
-            String[] parts = values.get(n).split("\\\\|", 2);
+        list.setOrientation(android.widget.LinearLayout.VERTICAL); list.setPadding(12,8,12,8); scroll.addView(list);
+        AlertDialog dialog = new AlertDialog.Builder(requireContext()).setTitle("Saved backgrounds").setView(scroll).setNegativeButton("Close", null).create();
+        for (int i=0; i<keys.size(); i++) {
+            final int index = i;
+            String[] parts = values.get(i).split("\\|", 2);
             if (parts.length != 2) continue;
             android.widget.LinearLayout card = new android.widget.LinearLayout(requireContext());
-            card.setOrientation(android.widget.LinearLayout.VERTICAL);
-            card.setPadding(10, 10, 10, 10);
-            card.setBackgroundColor(Color.rgb(35, 42, 53));
+            card.setOrientation(android.widget.LinearLayout.VERTICAL); card.setPadding(8,8,8,12); card.setBackgroundColor(Color.rgb(35,42,53));
             android.widget.ImageView preview = new android.widget.ImageView(requireContext());
-            preview.setLayoutParams(new android.widget.LinearLayout.LayoutParams(-1, 170));
             preview.setScaleType(android.widget.ImageView.ScaleType.CENTER_CROP);
+            preview.setLayoutParams(new android.widget.LinearLayout.LayoutParams(-1, 150));
             try {
-                Uri savedUri = Uri.parse(parts[1]);
-                if (parts[0].equals("Image")) preview.setImageURI(savedUri);
-                else {
+                if (parts[0].equals("Image")) {
+                    android.graphics.Bitmap bitmap = android.graphics.BitmapFactory.decodeStream(requireContext().getContentResolver().openInputStream(Uri.parse(parts[1])));
+                    if (bitmap != null) preview.setImageBitmap(bitmap);
+                } else {
                     android.media.MediaMetadataRetriever retriever = new android.media.MediaMetadataRetriever();
-                    retriever.setDataSource(requireContext(), savedUri);
+                    retriever.setDataSource(requireContext(), Uri.parse(parts[1]));
                     android.graphics.Bitmap frame = retriever.getFrameAtTime(1000000);
                     if (frame != null) preview.setImageBitmap(frame);
                     retriever.release();
                 }
             } catch (Exception ignored) {}
             card.addView(preview);
-            android.widget.TextView caption = new android.widget.TextView(requireContext());
-            caption.setText(parts[0].equals("Video") ? "VIDEO BACKGROUND" : "IMAGE BACKGROUND");
-            caption.setTextColor(Color.WHITE);
-            caption.setPadding(4, 8, 4, 8);
-            card.addView(caption);
-            android.widget.Button use = new android.widget.Button(requireContext());
-            use.setText("Use this background");
-            card.addView(use);
+            android.widget.TextView label = new android.widget.TextView(requireContext());
+            label.setText((parts[0].equals("Video") ? "Video background " : "Image background ") + (index+1));
+            label.setTextColor(Color.WHITE); label.setTextSize(14); label.setPadding(8,8,8,4); card.addView(label);
+            android.widget.Button use = new android.widget.Button(requireContext()); use.setText("Use this background");
             use.setOnClickListener(v -> {
-                String[] selected = p.getString(keys.get(index), "").split("\\\\|", 2);
+                String[] selected = p.getString(keys.get(index), "").split("\\|", 2);
                 if (selected.length != 2) return;
                 p.edit().remove("image").remove("video").putString(selected[0].equals("Video") ? "video" : "image", selected[1]).apply();
-                savedDialog.dismiss();
-                applyEtoCustomization(getView());
+                dialog.dismiss(); applyEtoCustomization(getView());
             });
-            list.addView(card);
-            android.view.View spacer = new android.view.View(requireContext());
-            list.addView(spacer, new android.widget.LinearLayout.LayoutParams(1, 12));
+            card.addView(use);
+            android.widget.Button remove = new android.widget.Button(requireContext()); remove.setText("Remove from saved");
+            remove.setOnClickListener(v -> { p.edit().remove(keys.get(index)).apply(); dialog.dismiss(); showSavedEtoBackgrounds(); });
+            card.addView(remove);
+            android.widget.LinearLayout.LayoutParams cp = new android.widget.LinearLayout.LayoutParams(-1,-2); cp.setMargins(0,0,0,12); list.addView(card,cp);
         }
-        savedDialog.show();
-    }
-
-    private void startEtoMusicIfAvailable() {
-        String music = requireContext().getSharedPreferences("eto_style", 0).getString("music", null);
-        if (music == null) return;
-        stopEtoMusic();
-        try {
-            etoMusicPlayer = new android.media.MediaPlayer();
-            etoMusicPlayer.setDataSource(requireContext(), Uri.parse(music));
-            etoMusicPlayer.setLooping(true);
-            etoMusicPlayer.setVolume(0.7f, 0.7f);
-            etoMusicPlayer.setOnPreparedListener(android.media.MediaPlayer::start);
-            etoMusicPlayer.prepareAsync();
-        } catch (Exception ex) { stopEtoMusic(); }
-    }
-
-    private void stopEtoMusic() {
-        if (etoMusicPlayer != null) {
-            try { etoMusicPlayer.stop(); } catch (Exception ignored) {}
-            try { etoMusicPlayer.release(); } catch (Exception ignored) {}
-            etoMusicPlayer = null;
-        }
-    }
-
-    @Override public void onStop() {
-        stopEtoMusic();
-        super.onStop();
+        dialog.show();
     }
 
     private void applyEtoCustomization(@Nullable View root) {
