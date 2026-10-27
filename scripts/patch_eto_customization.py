@@ -64,7 +64,7 @@ methods = r'''
         else e.putString("music", uri.toString());
         e.apply();
         applyEtoCustomization(getView());
-        if (requestCode == ETO_PICK_VIDEO) startEtoMusicIfAvailable();
+        if (requestCode == ETO_PICK_VIDEO || requestCode == ETO_PICK_MUSIC) startEtoMusicIfAvailable();
     }
 
     private void saveEtoBackground() {
