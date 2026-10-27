@@ -32,7 +32,7 @@ methods = r'''
 
     private void showEtoCustomization() {
         new AlertDialog.Builder(requireContext()).setTitle("Eto customization")
-            .setItems(new String[]{"Choose image background", "Choose video background", "Text color: dark", "Text color: white", "Text color: green", "Reset customization"}, (d, which) -> {
+            .setItems(new String[]{"Choose image background", "Choose video background", "Choose background music", "Save current background", "Use saved background", "Text color: dark", "Text color: white", "Text color: green", "Reset customization"}, (d, which) -> {
                 if (which < 2) {
                     Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                     i.addCategory(Intent.CATEGORY_OPENABLE);
