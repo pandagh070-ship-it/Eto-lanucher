@@ -134,8 +134,8 @@ jobs:
               raise SystemExit("Minecraft default options asset not found")
           s = p.read_text(encoding="utf-8")
           defaults = {
-              "renderDistance": "4",
-              "simulationDistance": "4",
+              "renderDistance": "2",
+              "simulationDistance": "3",
               "renderClouds": '"off"',
               "clouds": "false",
               "particles": "0",
@@ -157,7 +157,7 @@ jobs:
               else:
                   s += ("\n" if not s.endswith("\n") else "") + line + "\n"
           p.write_text(s, encoding="utf-8")
-          print("Applied performance-focused defaults for new Minecraft options files.")
+          print("Applied low-render-distance performance defaults for new Minecraft options files (2 chunks render, 3 simulation).")
           PY
 
       - name: Add functional Eto customization
