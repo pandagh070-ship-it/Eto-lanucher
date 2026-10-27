@@ -28,7 +28,9 @@ if "showEtoCustomization()" not in s:
 
 methods = r'''
     private static final int ETO_PICK_IMAGE = 8301;
-    private static final int ETO_PICK_VIDEO = 8302;\n    private static final int ETO_PICK_MUSIC = 8303;\n    private android.media.MediaPlayer etoMusicPlayer;
+    private static final int ETO_PICK_VIDEO = 8302;
+    private static final int ETO_PICK_MUSIC = 8303;
+    private android.media.MediaPlayer etoMusicPlayer;
 
     private void showEtoCustomization() {
         new AlertDialog.Builder(requireContext()).setTitle("Eto customization")
