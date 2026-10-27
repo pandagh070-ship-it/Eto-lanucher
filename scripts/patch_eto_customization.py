@@ -28,7 +28,7 @@ if "showEtoCustomization()" not in s:
 
 methods = r'''
     private static final int ETO_PICK_IMAGE = 8301;
-    private static final int ETO_PICK_VIDEO = 8302;
+    private static final int ETO_PICK_VIDEO = 8302;\n    private static final int ETO_PICK_MUSIC = 8303;\n    private android.media.MediaPlayer etoMusicPlayer;
 
     private void showEtoCustomization() {
         new AlertDialog.Builder(requireContext()).setTitle("Eto customization")
@@ -55,14 +55,73 @@ methods = r'''
 
     @Override public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data == null || data.getData() == null || (requestCode != ETO_PICK_IMAGE && requestCode != ETO_PICK_VIDEO)) return;
+        if (data == null || data.getData() == null || (requestCode != ETO_PICK_IMAGE && requestCode != ETO_PICK_VIDEO && requestCode != ETO_PICK_MUSIC)) return;
         Uri uri = data.getData();
         try { requireContext().getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION); } catch (Exception ignored) {}
         android.content.SharedPreferences.Editor e = requireContext().getSharedPreferences("eto_style", 0).edit();
         if (requestCode == ETO_PICK_IMAGE) e.putString("image", uri.toString()).remove("video");
-        else e.putString("video", uri.toString()).remove("image");
+        else if (requestCode == ETO_PICK_VIDEO) e.putString("video", uri.toString()).remove("image");
+        else e.putString("music", uri.toString());
         e.apply();
         applyEtoCustomization(getView());
+        if (requestCode == ETO_PICK_VIDEO) startEtoMusicIfAvailable();
+    }
+
+    private void saveEtoBackground() {
+        android.content.SharedPreferences p = requireContext().getSharedPreferences("eto_style", 0);
+        String uri = p.getString("video", null);
+        String type = "Video";
+        if (uri == null) { uri = p.getString("image", null); type = "Image"; }
+        if (uri == null) { Toast.makeText(requireContext(), "Choose a background first", Toast.LENGTH_SHORT).show(); return; }
+        p.edit().putString("saved_bg_" + System.currentTimeMillis(), type + "|" + uri).apply();
+        Toast.makeText(requireContext(), "Background saved", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showSavedEtoBackgrounds() {
+        android.content.SharedPreferences p = requireContext().getSharedPreferences("eto_style", 0);
+        java.util.ArrayList<String> keys = new java.util.ArrayList<>();
+        java.util.ArrayList<String> labels = new java.util.ArrayList<>();
+        for (String key : p.getAll().keySet()) if (key.startsWith("saved_bg_")) {
+            String value = p.getString(key, "");
+            keys.add(key);
+            labels.add((value.startsWith("Video|") ? "Video background " : "Image background ") + keys.size());
+        }
+        if (keys.isEmpty()) { Toast.makeText(requireContext(), "No saved backgrounds yet", Toast.LENGTH_SHORT).show(); return; }
+        new AlertDialog.Builder(requireContext()).setTitle("Saved backgrounds").setItems(labels.toArray(new String[0]), (dialog, index) -> {
+            String[] parts = p.getString(keys.get(index), "").split("\\|", 2);
+            if (parts.length != 2) return;
+            android.content.SharedPreferences.Editor e = p.edit().remove("image").remove("video");
+            e.putString(parts[0].equals("Video") ? "video" : "image", parts[1]).apply();
+            applyEtoCustomization(getView());
+            if (parts[0].equals("Video")) startEtoMusicIfAvailable();
+        }).show();
+    }
+
+    private void startEtoMusicIfAvailable() {
+        String music = requireContext().getSharedPreferences("eto_style", 0).getString("music", null);
+        if (music == null) return;
+        stopEtoMusic();
+        try {
+            etoMusicPlayer = new android.media.MediaPlayer();
+            etoMusicPlayer.setDataSource(requireContext(), Uri.parse(music));
+            etoMusicPlayer.setLooping(true);
+            etoMusicPlayer.setVolume(0.7f, 0.7f);
+            etoMusicPlayer.setOnPreparedListener(android.media.MediaPlayer::start);
+            etoMusicPlayer.prepareAsync();
+        } catch (Exception ex) { stopEtoMusic(); }
+    }
+
+    private void stopEtoMusic() {
+        if (etoMusicPlayer != null) {
+            try { etoMusicPlayer.stop(); } catch (Exception ignored) {}
+            try { etoMusicPlayer.release(); } catch (Exception ignored) {}
+            etoMusicPlayer = null;
+        }
+    }
+
+    @Override public void onStop() {
+        stopEtoMusic();
+        super.onStop();
     }
 
     private void applyEtoCustomization(@Nullable View root) {
