@@ -30,29 +30,57 @@ methods = r'''
     private static final int ETO_PICK_IMAGE = 8301;
     private static final int ETO_PICK_VIDEO = 8302;
     private static final int ETO_PICK_MUSIC = 8303;
-    private android.media.MediaPlayer etoMusicPlayer;
+    private static android.media.MediaPlayer etoMusicPlayer;
 
     private void showEtoCustomization() {
-        new AlertDialog.Builder(requireContext()).setTitle("Eto customization")
-            .setItems(new String[]{"Choose image background", "Choose video background", "Choose background music", "Save current background", "Use saved background", "Text color: dark", "Text color: white", "Text color: green", "Reset customization"}, (d, which) -> {
+        android.widget.LinearLayout panel = new android.widget.LinearLayout(requireContext());
+        panel.setOrientation(android.widget.LinearLayout.VERTICAL);
+        panel.setPadding(20, 8, 20, 8);
+        android.widget.TextView intro = new android.widget.TextView(requireContext());
+        intro.setText("PERSONALIZE YOUR HOME");
+        intro.setTextSize(12);
+        intro.setTextColor(Color.GRAY);
+        intro.setPadding(4, 8, 4, 14);
+        panel.addView(intro);
+        android.widget.GridLayout grid = new android.widget.GridLayout(requireContext());
+        grid.setColumnCount(2);
+        panel.addView(grid);
+        String[] labels = {"🖼  Image background", "🎞  Video background", "🎵  Video music", "💾  Save background", "📚  Saved backgrounds", "Aa  Text: dark", "Aa  Text: white", "Aa  Text: green", "↺  Reset"};
+        for (int n = 0; n < labels.length; n++) {
+            final int which = n;
+            android.widget.Button button = new android.widget.Button(requireContext());
+            button.setText(labels[n]);
+            button.setTextSize(12);
+            android.widget.GridLayout.LayoutParams lp = new android.widget.GridLayout.LayoutParams();
+            lp.width = 0;
+            lp.height = android.widget.GridLayout.LayoutParams.WRAP_CONTENT;
+            lp.columnSpec = android.widget.GridLayout.spec(n % 2, 1f);
+            lp.setMargins(4, 4, 4, 4);
+            grid.addView(button, lp);
+            button.setOnClickListener(v -> {
+                android.app.Dialog dialog = (android.app.Dialog) panel.getTag();
+                if (dialog != null) dialog.dismiss();
                 if (which < 3) {
                     Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                     i.addCategory(Intent.CATEGORY_OPENABLE);
                     i.setType(which == 0 ? "image/*" : which == 1 ? "video/*" : "audio/*");
                     startActivityForResult(i, which == 0 ? ETO_PICK_IMAGE : which == 1 ? ETO_PICK_VIDEO : ETO_PICK_MUSIC);
-                } else if (which == 3) {
-                    saveEtoBackground();
-                } else if (which == 4) {
-                    showSavedEtoBackgrounds();
-                } else if (which < 8) {
+                } else if (which == 3) saveEtoBackground();
+                else if (which == 4) showSavedEtoBackgrounds();
+                else if (which < 8) {
                     int[] colors = {Color.rgb(24,33,43), Color.WHITE, Color.rgb(21,148,90)};
                     requireContext().getSharedPreferences("eto_style", 0).edit().putInt("text", colors[which-5]).apply();
                     applyEtoCustomization(getView());
                 } else {
                     requireContext().getSharedPreferences("eto_style", 0).edit().clear().apply();
+                    stopEtoMusic();
                     applyEtoCustomization(getView());
                 }
-            }).show();
+            });
+        }
+        AlertDialog dialog = new AlertDialog.Builder(requireContext()).setTitle("Eto Studio").setView(panel).setNegativeButton("Close", null).create();
+        panel.setTag(dialog);
+        dialog.show();
     }
 
     @Override public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
