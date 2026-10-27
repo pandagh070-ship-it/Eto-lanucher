@@ -124,6 +124,42 @@ jobs:
           print("Replaced legacy XML launcher icon resources where present.")
           PY
 
+      - name: Apply low-latency Minecraft performance defaults
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          p = Path("upstream/app_pojavlauncher/src/main/assets/options.txt")
+          if not p.exists():
+              raise SystemExit("Minecraft default options asset not found")
+          s = p.read_text(encoding="utf-8")
+          defaults = {
+              "renderDistance": "4",
+              "simulationDistance": "4",
+              "renderClouds": '"off"',
+              "clouds": "false",
+              "particles": "0",
+              "fancyGraphics": "false",
+              "ao": "0",
+              "mipmapLevels": "0",
+              "anisotropicFiltering": "1",
+              "maxFps": "300",
+              "enableVsync": "false",
+              "entityShadows": "false",
+              "bobView": "false",
+              "snooperEnabled": "false",
+          }
+          for key, value in defaults.items():
+              pattern = rf"(?m)^{re.escape(key)}:.*$"
+              line = f"{key}:{value}"
+              if re.search(pattern, s):
+                  s = re.sub(pattern, lambda _: line, s, count=1)
+              else:
+                  s += ("\n" if not s.endswith("\n") else "") + line + "\n"
+          p.write_text(s, encoding="utf-8")
+          print("Applied performance-focused defaults for new Minecraft options files.")
+          PY
+
       - name: Add functional Eto customization
         run: python3 scripts/patch_eto_customization.py
       - name: Build Eto debug APK
