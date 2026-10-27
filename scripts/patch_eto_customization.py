@@ -33,14 +33,18 @@ methods = r'''
     private void showEtoCustomization() {
         new AlertDialog.Builder(requireContext()).setTitle("Eto customization")
             .setItems(new String[]{"Choose image background", "Choose video background", "Choose background music", "Save current background", "Use saved background", "Text color: dark", "Text color: white", "Text color: green", "Reset customization"}, (d, which) -> {
-                if (which < 2) {
+                if (which < 3) {
                     Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
                     i.addCategory(Intent.CATEGORY_OPENABLE);
-                    i.setType(which == 0 ? "image/*" : "video/*");
-                    startActivityForResult(i, which == 0 ? ETO_PICK_IMAGE : ETO_PICK_VIDEO);
-                } else if (which < 5) {
+                    i.setType(which == 0 ? "image/*" : which == 1 ? "video/*" : "audio/*");
+                    startActivityForResult(i, which == 0 ? ETO_PICK_IMAGE : which == 1 ? ETO_PICK_VIDEO : ETO_PICK_MUSIC);
+                } else if (which == 3) {
+                    saveEtoBackground();
+                } else if (which == 4) {
+                    showSavedEtoBackgrounds();
+                } else if (which < 8) {
                     int[] colors = {Color.rgb(24,33,43), Color.WHITE, Color.rgb(21,148,90)};
-                    requireContext().getSharedPreferences("eto_style", 0).edit().putInt("text", colors[which-2]).apply();
+                    requireContext().getSharedPreferences("eto_style", 0).edit().putInt("text", colors[which-5]).apply();
                     applyEtoCustomization(getView());
                 } else {
                     requireContext().getSharedPreferences("eto_style", 0).edit().clear().apply();
