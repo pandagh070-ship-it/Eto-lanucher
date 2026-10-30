@@ -261,8 +261,8 @@ print("Eto background and text color customization patched.")
 import re
 activity = Path("upstream/app_pojavlauncher/src/main/java/net/kdt/pojavlaunch/LauncherActivity.java")
 a = activity.read_text(encoding="utf-8")
-a, count = re.subn(r"(public\\s+boolean\\s+setFullscreen\\s*\\(\\s*\\)\\s*\\{)\\s*return\\s+false\\s*;", r"\\1\\n        return true;", a, count=1)
-if count == 0 and "public boolean setFullscreen() {\\n        return true;" not in a:
+a, count = re.subn(r"(public\s+boolean\s+setFullscreen\s*\(\s*\)\s*\{)\s*return\s+false\s*;", r"\1\n        return true;", a, count=1)
+if count == 0 and re.search(r"public\s+boolean\s+setFullscreen\s*\(\s*\)\s*\{\s*return\s+true\s*;", a) is None:
     raise SystemExit("Could not locate LauncherActivity.setFullscreen()")
 activity.write_text(a, encoding="utf-8")
 print("Enabled immersive launcher mode: status and navigation bars reveal on edge swipe.")
