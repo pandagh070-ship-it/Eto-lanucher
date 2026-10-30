@@ -162,6 +162,34 @@ jobs:
 
       - name: Add functional Eto customization
         run: python3 scripts/patch_eto_customization.py
+      - name: Add local Minecraft skin support
+        run: |
+          python3 scripts/patch_eto_skin.py
+          python3 - <<'PY'
+          import json
+          import urllib.request
+          from pathlib import Path
+          version = "OLaesh5y"
+          req = urllib.request.Request(
+              f"https://api.modrinth.com/v2/version/{version}",
+              headers={"User-Agent": "pandagh070-ship-it/EtoLauncher/1.0"}
+          )
+          with urllib.request.urlopen(req, timeout=30) as response:
+              data = json.load(response)
+          files = data.get("files", [])
+          selected = next((item for item in files if item.get("primary")), files[0] if files else None)
+          if not selected:
+              raise SystemExit("CustomSkinLoader 15.0.1 file metadata missing")
+          target = Path("upstream/app_pojavlauncher/src/main/assets/eto/CustomSkinLoader_Universal-15.0.1.jar")
+          target.parent.mkdir(parents=True, exist_ok=True)
+          download = urllib.request.Request(selected["url"], headers={"User-Agent": "pandagh070-ship-it/EtoLauncher/1.0"})
+          with urllib.request.urlopen(download, timeout=60) as response:
+              payload = response.read()
+          if len(payload) < 10000:
+              raise SystemExit("Downloaded CustomSkinLoader jar is unexpectedly small")
+          target.write_bytes(payload)
+          print(f"Bundled {selected['filename']} ({len(payload)} bytes)")
+          PY
       - name: Build Eto debug APK
         working-directory: upstream
         run: |
