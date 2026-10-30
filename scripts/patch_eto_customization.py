@@ -245,6 +245,36 @@ for imp in [
 ]:
     if imp not in g:
         g = g.replace("import android.view.View;", "import android.view.View;\n" + imp, 1)
+
+# Keep both the launcher and the game in immersive fullscreen; edge swipes reveal system bars.
+for imp in ["import android.view.WindowManager;"]:
+    if imp not in g:
+        g = g.replace("import android.view.View;", "import android.view.View;\\n" + imp, 1)
+if "applyEtoImmersiveMode();" not in g:
+    anchor = "        initLayout(R.layout.activity_basemain);"
+    if anchor not in g: raise SystemExit("Fullscreen insertion point missing")
+    g = g.replace(anchor, anchor + "\\n        applyEtoImmersiveMode();", 1)
+if "private void applyEtoImmersiveMode()" not in g:
+    full = r'''
+    private void applyEtoImmersiveMode() {
+        getWindow().getDecorView().setSystemUiVisibility(
+            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+            | View.SYSTEM_UI_FLAG_FULLSCREEN
+            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
+    }
+
+    @Override public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) applyEtoImmersiveMode();
+    }
+'''
+    pos = g.rfind("\\n}")
+    if pos < 0: raise SystemExit("GameActivity closing brace missing for fullscreen")
+    g = g[:pos] + "\\n" + full + g[pos:]
+
 if "installEtoFpsCounter();" not in g:
     anchor = "        initLayout(R.layout.activity_basemain);"
     if anchor not in g:
