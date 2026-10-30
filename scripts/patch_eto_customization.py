@@ -255,15 +255,14 @@ print("Eto background and text color customization patched.")
 # not Minecraft render frames. A real game FPS meter needs renderer instrumentation.
 
 
+
+
 # Keep Android system bars hidden on the launcher until the user swipes from an edge.
-# BaseActivity applies immersive insets through Tools.setInsetsMode when this returns true.
+import re
 activity = Path("upstream/app_pojavlauncher/src/main/java/net/kdt/pojavlaunch/LauncherActivity.java")
 a = activity.read_text(encoding="utf-8")
-old_fullscreen = "public boolean setFullscreen() {\\n        return false;\\n    }"
-new_fullscreen = "public boolean setFullscreen() {\\n        return true;\\n    }"
-if old_fullscreen in a:
-    a = a.replace(old_fullscreen, new_fullscreen, 1)
-elif new_fullscreen not in a:
+a, count = re.subn(r"(public\\s+boolean\\s+setFullscreen\\s*\\(\\s*\\)\\s*\\{)\\s*return\\s+false\\s*;", r"\\1\\n        return true;", a, count=1)
+if count == 0 and "public boolean setFullscreen() {\\n        return true;" not in a:
     raise SystemExit("Could not locate LauncherActivity.setFullscreen()")
 activity.write_text(a, encoding="utf-8")
 print("Enabled immersive launcher mode: status and navigation bars reveal on edge swipe.")
