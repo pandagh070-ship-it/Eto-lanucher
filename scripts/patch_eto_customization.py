@@ -19,6 +19,11 @@ if "showEtoCustomization()" not in s:
     s = s.replace(needle, needle + """
         Button customizeButton = view.findViewById(R.id.customize_button);
         customizeButton.setOnClickListener(v -> showEtoCustomization());
+        ImageButton etoSettingsButton = view.findViewById(R.id.eto_settings_button);
+        etoSettingsButton.setOnClickListener(v ->
+                Tools.swapFragment(requireActivity(),
+                        net.kdt.pojavlaunch.prefs.screens.LauncherPreferenceFragment.class,
+                        net.kdt.pojavlaunch.LauncherActivity.SETTING_FRAGMENT_TAG, null));
         applyEtoCustomization(view);
 """, 1)
 
