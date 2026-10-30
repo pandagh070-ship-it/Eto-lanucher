@@ -19,10 +19,6 @@ if "showEtoCustomization()" not in s:
     s = s.replace(needle, needle + """
         Button customizeButton = view.findViewById(R.id.customize_button);
         customizeButton.setOnClickListener(v -> showEtoCustomization());
-        View etoSettings = view.findViewById(R.id.eto_settings_button);
-        if (etoSettings != null) etoSettings.setOnClickListener(v -> { View oldSettings = requireActivity().findViewById(R.id.setting_button); if (oldSettings != null) oldSettings.performClick(); });
-        View etoAccount = view.findViewById(R.id.edit_profile_button);
-        if (etoAccount != null) etoAccount.setOnClickListener(v -> { View account = requireActivity().findViewById(R.id.account_spinner); if (account != null) account.performClick(); });
         applyEtoCustomization(view);
 """, 1)
 
@@ -72,6 +68,21 @@ methods = r'''
         }
         AlertDialog dialog = new AlertDialog.Builder(requireContext()).setTitle("Eto Studio").setView(panel).setNegativeButton("Close", null).create();
         panel.setTag(dialog); dialog.show();
+    }
+
+    @Override public void onPause() {
+        stopEtoBackgroundPlayback();
+        super.onPause();
+    }
+
+    private void stopEtoBackgroundPlayback() {
+        View root = getView();
+        if (root == null) return;
+        VideoView player = root.findViewWithTag("eto-video");
+        if (player != null) {
+            try { player.stopPlayback(); } catch (Exception ignored) {}
+            player.setVisibility(View.GONE);
+        }
     }
 
     @Override public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -235,98 +246,5 @@ p.write_text(s, encoding="utf-8")
 print("Eto background and text color customization patched.")
 
 
-# Add a lightweight in-game FPS estimate overlay to the game activity.
-game = Path("upstream/app_pojavlauncher/src/main/java/net/kdt/pojavlaunch/game/GameActivity.java")
-g = game.read_text(encoding="utf-8")
-for imp in [
-    "import android.view.Choreographer;",
-    "import android.view.Gravity;",
-    "import android.widget.FrameLayout;"
-]:
-    if imp not in g:
-        g = g.replace("import android.view.View;", "import android.view.View;\n" + imp, 1)
-
-# Keep both the launcher and the game in immersive fullscreen; edge swipes reveal system bars.
-for imp in ["import android.view.WindowManager;"]:
-    if imp not in g:
-        g = g.replace("import android.view.View;", "import android.view.View;\n" + imp, 1)
-if "applyEtoImmersiveMode();" not in g:
-    anchor = "        initLayout(R.layout.activity_basemain);"
-    if anchor not in g: raise SystemExit("Fullscreen insertion point missing")
-    g = g.replace(anchor, anchor + "\n        applyEtoImmersiveMode();", 1)
-if "private void applyEtoImmersiveMode()" not in g:
-    full = r'''
-    private void applyEtoImmersiveMode() {
-        getWindow().getDecorView().setSystemUiVisibility(
-            View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-            | View.SYSTEM_UI_FLAG_FULLSCREEN
-            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-            | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-    }
-
-    @Override public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) applyEtoImmersiveMode();
-    }
-'''
-    pos = g.rfind("\n}")
-    if pos < 0: raise SystemExit("GameActivity closing brace missing for fullscreen")
-    g = g[:pos] + "\n" + full + g[pos:]
-
-if "installEtoFpsCounter();" not in g:
-    anchor = "        initLayout(R.layout.activity_basemain);"
-    if anchor not in g:
-        raise SystemExit("GameActivity layout insertion point missing")
-    g = g.replace(anchor, anchor + "\n        installEtoFpsCounter();", 1)
-if "private void installEtoFpsCounter()" not in g:
-    methods = r'''
-    private void installEtoFpsCounter() {
-        final FrameLayout overlay = (FrameLayout) getWindow().getDecorView().findViewById(android.R.id.content);
-        if (overlay == null) return;
-        final TextView fps = new TextView(this);
-        fps.setText("FPS: --");
-        fps.setTextColor(Color.WHITE);
-        fps.setTextSize(12f);
-        fps.setTypeface(android.graphics.Typeface.MONOSPACE, android.graphics.Typeface.BOLD);
-        fps.setPadding(10, 5, 10, 5);
-        android.graphics.drawable.GradientDrawable bg = new android.graphics.drawable.GradientDrawable();
-        bg.setColor(0x990D1117);
-        bg.setCornerRadius(10f);
-        fps.setBackground(bg);
-        FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-            ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
-            Gravity.TOP | Gravity.END);
-        lp.topMargin = 12;
-        lp.rightMargin = 12;
-        overlay.addView(fps, lp);
-        final int[] frames = {0};
-        final long[] start = {System.nanoTime()};
-        final Choreographer choreographer = Choreographer.getInstance();
-        final Choreographer.FrameCallback[] callback = new Choreographer.FrameCallback[1];
-        callback[0] = frameTimeNanos -> {
-            if (isFinishing() || isDestroyed()) {
-                overlay.removeView(fps);
-                return;
-            }
-            frames[0]++;
-            long now = System.nanoTime();
-            long elapsed = now - start[0];
-            if (elapsed >= 1_000_000_000L) {
-                int rate = Math.round(frames[0] * 1_000_000_000f / elapsed);
-                fps.setText("FPS: " + rate);
-                frames[0] = 0;
-                start[0] = now;
-            }
-            choreographer.postFrameCallback(callback[0]);
-        };
-        choreographer.postFrameCallback(callback[0]);
-    }
-'''
-    pos = g.rfind("\n}")
-    if pos < 0:
-        raise SystemExit("GameActivity closing brace missing")
-    g = g[:pos] + "\n" + methods + g[pos:]
-game.write_text(g, encoding="utf-8")
-print("Added a lightweight in-game frame-rate overlay.")
+# Do not install a Choreographer-based FPS counter: it measures Android UI frames,
+# not Minecraft render frames. A real game FPS meter needs renderer instrumentation.
