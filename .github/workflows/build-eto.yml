@@ -224,7 +224,8 @@ jobs:
               "Updated Eto Launcher interface",
               "Dedicated Skin Studio button in the main menu",
               "In-app update checker and APK download",
-              "Performance and stability improvements"
+              "Performance update delivery test",
+              "Refreshed low-end Minecraft performance defaults"
             ]
           }
           EOF
