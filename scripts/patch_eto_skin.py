@@ -12,7 +12,7 @@ def add_import(line):
         else:
             s = s.replace("import android.content.Intent;", "import android.content.Intent;\n" + line, 1)
 
-for imp in ("import java.io.FileInputStream;", "import java.io.FileOutputStream;", "import java.io.InputStream;"):
+for imp in ("import java.io.FileInputStream;", "import java.io.FileOutputStream;", "import java.io.InputStream;", "import android.graphics.Bitmap;", "import android.graphics.BitmapFactory;", "import android.graphics.Canvas;", "import android.widget.ImageButton;"):
     add_import(imp)
 
 # Bind the dedicated Skin button in the main launcher menu, separate from background customization.
