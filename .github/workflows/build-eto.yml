@@ -194,6 +194,10 @@ jobs:
           target.write_bytes(payload)
           print(f"Bundled {selected['filename']} ({len(payload)} bytes)")
           PY
+      - name: Add Eto in-app update system
+        run: |
+          python3 scripts/patch_eto_updater.py
+
       - name: Build Eto debug APK
         working-directory: upstream
         run: |
@@ -208,6 +212,23 @@ jobs:
           if-no-files-found: error
           retention-days: 7
 
+      - name: Prepare stable Eto update assets
+        run: |
+          mkdir -p release-assets
+          cp upstream/app_pojavlauncher/build/outputs/apk/full/debug/*.apk release-assets/EtoLauncher.apk
+          cat > release-assets/update.json <<EOF
+          {
+            "versionCode": ${GITHUB_RUN_NUMBER},
+            "versionName": "Eto build ${GITHUB_RUN_NUMBER}",
+            "changelog": [
+              "Updated Eto Launcher interface",
+              "Dedicated Skin Studio button in the main menu",
+              "In-app update checker and APK download",
+              "Performance and stability improvements"
+            ]
+          }
+          EOF
+
       - name: Publish APK as a public GitHub Release
         uses: softprops/action-gh-release@v2
         with:
@@ -215,4 +236,4 @@ jobs:
           name: Eto Launcher build ${{ github.run_number }}
           prerelease: true
           make_latest: true
-          files: upstream/app_pojavlauncher/build/outputs/apk/full/debug/*.apk
+          files: |\n            release-assets/EtoLauncher.apk\n            release-assets/update.json
