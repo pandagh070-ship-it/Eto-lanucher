@@ -17,7 +17,7 @@ for imp in imports:
     if imp not in s:
         anchor = "import android.content.Intent;"
         if anchor in s:
-            s = s.replace(anchor, anchor + "\\n" + imp, 1)
+            s = s.replace(anchor, anchor + "\n" + imp, 1)
         else:
             raise SystemExit("Cannot add updater imports")
 
@@ -25,7 +25,7 @@ needle = "        mVersionSpinner = view.findViewById(R.id.mc_version_spinner);"
 if "checkForEtoUpdate();" not in s:
     if needle not in s:
         raise SystemExit("Updater insertion point missing")
-    s = s.replace(needle, needle + "\\n        checkForEtoUpdate();", 1)
+    s = s.replace(needle, needle + "\n        checkForEtoUpdate();", 1)
 
 methods = r"""
     private static final String ETO_UPDATE_INFO =
@@ -56,10 +56,10 @@ methods = r"""
                 org.json.JSONArray changes = data.optJSONArray("changelog");
                 StringBuilder notes = new StringBuilder();
                 if (changes != null) {
-                    for (int i = 0; i < changes.length(); i++) notes.append("• ").append(changes.optString(i)).append("\\n");
+                    for (int i = 0; i < changes.length(); i++) notes.append("• ").append(changes.optString(i)).append("\n");
                 }
-                String message = "Installed: " + BuildConfig.VERSION_NAME + "\\nAvailable: " + version
-                        + "\\n\\nWhat's new?\\n" + (notes.length() == 0 ? "Performance and stability improvements" : notes.toString());
+                String message = "Installed: " + BuildConfig.VERSION_NAME + "\nAvailable: " + version
+                        + "\n\nWhat's new?\n" + (notes.length() == 0 ? "Performance and stability improvements" : notes.toString());
                 requireActivity().runOnUiThread(() -> {
                     if (!isAdded()) return;
                     new AlertDialog.Builder(requireContext())
@@ -96,16 +96,16 @@ methods = r"""
 
 """
 if "private void checkForEtoUpdate()" not in s:
-    pos = s.rfind("\\n}")
+    pos = s.rfind("\n}")
     if pos < 0:
         raise SystemExit("MainMenuFragment class end missing")
-    s = s[:pos] + "\\n" + methods + s[pos:]
+    s = s[:pos] + "\n" + methods + s[pos:]
 
 manifest = Path("upstream/app_pojavlauncher/src/main/AndroidManifest.xml")
 manifest_text = manifest.read_text(encoding="utf-8")
 permission = '<uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />'
 if permission not in manifest_text:
-    manifest_text = manifest_text.replace("<application", permission + "\\n    <application", 1)
+    manifest_text = manifest_text.replace("<application", permission + "\n    <application", 1)
 manifest.write_text(manifest_text, encoding="utf-8")
 
 p.write_text(s, encoding="utf-8")
