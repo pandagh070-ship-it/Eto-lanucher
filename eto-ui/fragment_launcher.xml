@@ -7,9 +7,10 @@
 <com.kdt.mcgui.LauncherMenuButton android:id="@+id/news_button" android:layout_width="match_parent" android:layout_height="1dp" android:visibility="gone" android:text="Home" android:textColor="#F2F5F9" android:backgroundTint="#183B2D" android:drawableStart="@drawable/ic_eto_home"/>
 <com.kdt.mcgui.LauncherMenuButton android:id="@+id/social_media_button" android:layout_width="match_parent" android:layout_height="1dp" android:visibility="gone" android:text="Community"/>
 <View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginTop="16dp" android:layout_marginBottom="16dp" android:background="#303A48"/>
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="GAME SETUP" android:textColor="#A8B4C2" android:textSize="11sp" android:textStyle="bold" android:paddingBottom="8dp"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="PERSONALIZE &amp; GAME SETUP" android:textColor="#A8B4C2" android:textSize="11sp" android:textStyle="bold" android:paddingBottom="8dp"/>
 
 <com.kdt.mcgui.LauncherMenuButton android:id="@+id/customize_button" android:layout_width="match_parent" android:layout_height="44dp" android:layout_marginBottom="8dp" android:text="  Customize" android:textColor="#E6ECF3" android:backgroundTint="#183B2D" android:drawableStart="@drawable/ic_eto_edit"/>
+<com.kdt.mcgui.LauncherMenuButton android:id="@+id/skin_button" android:layout_width="match_parent" android:layout_height="44dp" android:layout_marginBottom="8dp" android:text="  Skin Studio" android:textColor="#E6ECF3" android:backgroundTint="#263B52" android:drawableStart="@drawable/ic_eto_account"/>
 <com.kdt.mcgui.LauncherMenuButton android:id="@+id/custom_control_button" android:layout_width="match_parent" android:layout_height="44dp" android:text="  Controls" android:textColor="#E6ECF3" android:backgroundTint="#252E3A" android:drawableStart="@drawable/ic_eto_controls"/>
 <com.kdt.mcgui.LauncherMenuButton android:id="@+id/open_files_button" android:layout_width="match_parent" android:layout_height="44dp" android:text="  Game files" android:textColor="#E6ECF3" android:backgroundTint="#252E3A" android:drawableStart="@drawable/ic_eto_folder"/>
 <com.kdt.mcgui.LauncherMenuButton android:id="@+id/share_logs_button" android:layout_width="match_parent" android:layout_height="44dp" android:text="  Debug logs" android:textColor="#E6ECF3" android:backgroundTint="#252E3A" android:drawableStart="@drawable/ic_eto_logs"/>
@@ -19,9 +20,9 @@
 
 
 </LinearLayout>
-<LinearLayout android:id="@+id/eto_news_area" android:layout_width="0dp" android:layout_height="0dp" android:orientation="vertical" android:padding="24dp" android:paddingTop="56dp" android:background="#12161C" app:layout_constraintStart_toEndOf="@id/eto_sidebar" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent">
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="YOUR GAME LIBRARY" android:textColor="#15945A" android:textSize="11sp" android:textStyle="bold" android:letterSpacing="0.12"/>
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Choose a version" android:textColor="#F2F5F9" android:textSize="30sp" android:textStyle="bold" android:paddingTop="5dp"/>
+<LinearLayout android:id="@+id/eto_news_area" android:layout_width="0dp" android:layout_height="0dp" android:orientation="vertical" android:padding="28dp" android:paddingTop="64dp" android:background="#12161C" app:layout_constraintStart_toEndOf="@id/eto_sidebar" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent">
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ETO • MINECRAFT JAVA" android:textColor="#15945A" android:textSize="11sp" android:textStyle="bold" android:letterSpacing="0.12"/>
+<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Your game library" android:textColor="#F2F5F9" android:textSize="30sp" android:textStyle="bold" android:paddingTop="5dp"/>
 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Select an installed Minecraft version to play, or add a new one." android:textColor="#C0CAD6" android:textSize="15sp" android:paddingTop="8dp" android:paddingBottom="22dp"/>
 <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="22dp" android:background="#1B222C">
 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="INSTALLED VERSIONS" android:textColor="#B8C4D0" android:textSize="11sp" android:textStyle="bold" android:paddingBottom="10dp"/>
