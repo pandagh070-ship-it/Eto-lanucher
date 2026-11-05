@@ -23,6 +23,8 @@ if 'skinButton.setOnClickListener' not in s:
     s = s.replace(anchor, anchor + """
         android.widget.Button skinButton = view.findViewById(R.id.skin_button);
         skinButton.setOnClickListener(v -> showEtoSkinPicker());
+        ImageButton etoAvatar = view.findViewById(R.id.edit_profile_button);
+        updateEtoSkinAvatar(etoAvatar);
 """, 1)
 
 skin_picker_method = r"""
@@ -124,6 +126,11 @@ methods = r"""
                 }
             }
             Toast.makeText(requireContext(), "Skin installed for " + username + ". Launch this profile with Fabric, then rejoin the world.", Toast.LENGTH_LONG).show();
+            View menu = getView();
+            if (menu != null) {
+                ImageButton avatar = menu.findViewById(R.id.edit_profile_button);
+                updateEtoSkinAvatar(avatar);
+            }
         } catch (Exception ex) {
             Toast.makeText(requireContext(), "Skin install failed: " + ex.getMessage(), Toast.LENGTH_LONG).show();
         }
@@ -134,6 +141,37 @@ if "private void installEtoLocalSkin(Uri uri)" not in s:
     pos = s.rfind("\n}")
     if pos < 0: raise SystemExit("MainMenuFragment closing brace missing")
     s = s[:pos] + "\n" + methods + s[pos:]
+
+avatar_method = r"""
+    private void updateEtoSkinAvatar(ImageButton avatar) {
+        if (avatar == null || !isAdded()) return;
+        try {
+            Instance instance = Instances.loadSelectedInstance();
+            if (instance == null) return;
+            String username = requireContext().getSharedPreferences("eto_style", 0)
+                    .getString("skin_username", "Player");
+            File skin = new File(new File(instance.getGameDirectory(),
+                    "CustomSkinLoader/LocalSkin/skins"), username + ".png");
+            if (!skin.isFile()) return;
+            Bitmap source = BitmapFactory.decodeFile(skin.getAbsolutePath());
+            if (source == null || source.getWidth() < 48 || source.getHeight() < 16) return;
+            Bitmap face = Bitmap.createBitmap(source, 8, 8, 8, 8).copy(Bitmap.Config.ARGB_8888, true);
+            Bitmap hat = Bitmap.createBitmap(source, 40, 8, 8, 8);
+            new Canvas(face).drawBitmap(hat, 0, 0, null);
+            hat.recycle();
+            avatar.setImageBitmap(face);
+            avatar.setScaleType(ImageButton.ScaleType.CENTER_CROP);
+            avatar.setPadding(8, 8, 8, 8);
+            avatar.setContentDescription("Current Minecraft skin");
+        } catch (Exception ignored) {
+            // Keep the default profile icon if no readable local skin is available.
+        }
+    }
+"""
+if "private void updateEtoSkinAvatar(" not in s:
+    pos = s.rfind("\n}")
+    if pos < 0: raise SystemExit("MainMenuFragment closing brace missing for skin avatar")
+    s = s[:pos] + "\n" + avatar_method + "\n" + s[pos:]
 
 p.write_text(s, encoding="utf-8")
 print("Added Eto local skin import and CustomSkinLoader integration.")
