@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/fragment_menu_main" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#000000">
-<LinearLayout android:id="@+id/eto_sidebar" android:layout_width="210dp" android:layout_height="0dp" android:orientation="vertical" android:padding="14dp" android:paddingTop="68dp" android:background="#1B222C" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent">
+<ScrollView android:id="@+id/eto_sidebar" android:layout_width="210dp" android:layout_height="0dp" android:fillViewport="true" android:clipToPadding="false" android:background="#1B222C" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"><LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="14dp" android:paddingTop="30dp">
 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ETO" android:textColor="#F2F5F9" android:textSize="30sp" android:textStyle="bold" android:paddingTop="6dp"/>
 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="JAVA LAUNCHER" android:textColor="#B8C2CE" android:textSize="11sp" android:letterSpacing="0.12" android:paddingBottom="24dp"/>
 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="LIBRARY" android:textColor="#A8B4C2" android:textSize="11sp" android:textStyle="bold" android:paddingBottom="8dp"/>
@@ -14,12 +14,11 @@
 <com.kdt.mcgui.LauncherMenuButton android:id="@+id/custom_control_button" android:layout_width="match_parent" android:layout_height="44dp" android:text="  Controls" android:textColor="#E6ECF3" android:backgroundTint="#252E3A" android:drawableStart="@drawable/ic_eto_controls"/>
 <com.kdt.mcgui.LauncherMenuButton android:id="@+id/open_files_button" android:layout_width="match_parent" android:layout_height="44dp" android:text="  Game files" android:textColor="#E6ECF3" android:backgroundTint="#252E3A" android:drawableStart="@drawable/ic_eto_folder"/>
 <com.kdt.mcgui.LauncherMenuButton android:id="@+id/share_logs_button" android:layout_width="match_parent" android:layout_height="44dp" android:text="  Debug logs" android:textColor="#E6ECF3" android:backgroundTint="#252E3A" android:drawableStart="@drawable/ic_eto_logs"/>
-<View android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="READY TO PLAY" android:textColor="#AAB5C2" android:textSize="10sp" android:textStyle="bold" android:paddingBottom="6dp"/>
 
 
 
-</LinearLayout>
+
+</LinearLayout></ScrollView>
 <LinearLayout android:id="@+id/eto_news_area" android:layout_width="0dp" android:layout_height="0dp" android:orientation="vertical" android:padding="28dp" android:paddingTop="64dp" android:background="#12161C" app:layout_constraintStart_toEndOf="@id/eto_sidebar" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent">
 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ETO • MINECRAFT JAVA" android:textColor="#15945A" android:textSize="11sp" android:textStyle="bold" android:letterSpacing="0.12"/>
 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Your game library" android:textColor="#F2F5F9" android:textSize="30sp" android:textStyle="bold" android:paddingTop="5dp"/>
