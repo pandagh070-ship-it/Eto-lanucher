@@ -33,6 +33,14 @@ methods = r"""
     private static final String ETO_APK_URL =
             "https://github.com/pandagh070-ship-it/Eto-lanucher/releases/latest/download/EtoLauncher.apk";
 
+    private String readEtoUpdateJson(java.io.InputStream input) throws Exception {
+        java.io.ByteArrayOutputStream output = new java.io.ByteArrayOutputStream();
+        byte[] buffer = new byte[4096];
+        int count;
+        while ((count = input.read(buffer)) != -1) output.write(buffer, 0, count);
+        return new String(output.toByteArray(), "UTF-8");
+    }
+
     private void checkForEtoUpdate() {
         new Thread(() -> {
             HttpURLConnection connection = null;
@@ -41,7 +49,7 @@ methods = r"""
                 connection.setConnectTimeout(10000);
                 connection.setReadTimeout(10000);
                 connection.setRequestProperty("Cache-Control", "no-cache");
-                JSONObject data = new JSONObject(new String(connection.getInputStream().readAllBytes(), java.nio.charset.StandardCharsets.UTF_8));
+                JSONObject data = new JSONObject(readEtoUpdateJson(connection.getInputStream()));
                 int latest = data.optInt("versionCode", 0);
                 if (latest <= BuildConfig.VERSION_CODE || !isAdded()) return;
                 String version = data.optString("versionName", "New version");
@@ -92,6 +100,13 @@ if "private void checkForEtoUpdate()" not in s:
     if pos < 0:
         raise SystemExit("MainMenuFragment class end missing")
     s = s[:pos] + "\\n" + methods + s[pos:]
+
+manifest = Path("upstream/app_pojavlauncher/src/main/AndroidManifest.xml")
+manifest_text = manifest.read_text(encoding="utf-8")
+permission = '<uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />'
+if permission not in manifest_text:
+    manifest_text = manifest_text.replace("<application", permission + "\\n    <application", 1)
+manifest.write_text(manifest_text, encoding="utf-8")
 
 p.write_text(s, encoding="utf-8")
 print("Added Eto update check and APK download dialog.")
