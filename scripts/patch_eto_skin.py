@@ -25,29 +25,36 @@ if 'skinButton.setOnClickListener' not in s:
         skinButton.setOnClickListener(v -> showEtoSkinPicker());
 """, 1)
 
-private void showEtoSkinPicker() {
-    android.widget.EditText username = new android.widget.EditText(requireContext());
-    username.setSingleLine(true);
-    username.setHint("Minecraft username (Guest name)");
-    username.setText(requireContext().getSharedPreferences("eto_style", 0).getString("skin_username", ""));
-    new AlertDialog.Builder(requireContext())
-        .setTitle("Eto Skin Studio")
-        .setMessage("Choose your Minecraft username, then select a 64x64 or 64x32 PNG skin. The skin is stored locally for your selected game profile.")
-        .setView(username)
-        .setNegativeButton("Cancel", null)
-        .setPositiveButton("Choose PNG", (d, w) -> {
-            String name = username.getText().toString().trim();
-            if (name.isEmpty() || !name.matches("[A-Za-z0-9_]{1,16}")) {
-                Toast.makeText(requireContext(), "Enter a valid Minecraft username", Toast.LENGTH_LONG).show();
-                return;
-            }
-            requireContext().getSharedPreferences("eto_style", 0).edit().putString("skin_username", name).apply();
-            Intent pick = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-            pick.addCategory(Intent.CATEGORY_OPENABLE);
-            pick.setType("image/png");
-            startActivityForResult(pick, 8304);
-        }).show();
-}
+skin_picker_method = r"""
+    private void showEtoSkinPicker() {
+        android.widget.EditText username = new android.widget.EditText(requireContext());
+        username.setSingleLine(true);
+        username.setHint("Minecraft username (Guest name)");
+        username.setText(requireContext().getSharedPreferences("eto_style", 0).getString("skin_username", ""));
+        new AlertDialog.Builder(requireContext())
+            .setTitle("Eto Skin Studio")
+            .setMessage("Choose your Minecraft username, then select a 64x64 or 64x32 PNG skin. The skin is stored locally for your selected game profile.")
+            .setView(username)
+            .setNegativeButton("Cancel", null)
+            .setPositiveButton("Choose PNG", (d, w) -> {
+                String name = username.getText().toString().trim();
+                if (name.isEmpty() || !name.matches("[A-Za-z0-9_]{1,16}")) {
+                    Toast.makeText(requireContext(), "Enter a valid Minecraft username", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                requireContext().getSharedPreferences("eto_style", 0).edit().putString("skin_username", name).apply();
+                Intent pick = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                pick.addCategory(Intent.CATEGORY_OPENABLE);
+                pick.setType("image/png");
+                startActivityForResult(pick, 8304);
+            }).show();
+    }
+
+"""
+if "private void showEtoSkinPicker()" not in s:
+    pos = s.rfind("\n}")
+    if pos < 0: raise SystemExit("MainMenuFragment closing brace missing")
+    s = s[:pos] + "\n" + skin_picker_method + s[pos:]
 
 # Extend the existing picker handler with skin import before its image/video guard.
 old = '        if (data == null || data.getData() == null || (requestCode != ETO_PICK_IMAGE && requestCode != ETO_PICK_VIDEO)) return;'
