@@ -15,40 +15,39 @@ def add_import(line):
 for imp in ("import java.io.FileInputStream;", "import java.io.FileOutputStream;", "import java.io.InputStream;"):
     add_import(imp)
 
-# Add a real in-game local-skin action to Eto Studio.
+# Bind the dedicated Skin button in the main launcher menu, separate from background customization.
 if 'skinButton.setOnClickListener' not in s:
-    anchor = '        grid.setColumnCount(2); panel.addView(grid);'
+    anchor = '        customizeButton.setOnClickListener(v -> showEtoCustomization());'
     if anchor not in s:
-        raise SystemExit("Eto Studio grid insertion point missing")
+        raise SystemExit("Eto main-menu customization listener not found")
     s = s.replace(anchor, anchor + """
-        android.widget.Button skinButton = new android.widget.Button(requireContext());
-        skinButton.setText("Choose Minecraft skin");
-        skinButton.setTextSize(13);
-        panel.addView(skinButton);
-        skinButton.setOnClickListener(v -> {
-            android.widget.EditText username = new android.widget.EditText(requireContext());
-            username.setSingleLine(true);
-            username.setHint("Minecraft username (Guest name)");
-            username.setText(requireContext().getSharedPreferences("eto_style", 0).getString("skin_username", ""));
-            new AlertDialog.Builder(requireContext())
-                .setTitle("Set Minecraft skin")
-                .setMessage("Choose your Minecraft username, then select a 64x64 or 64x32 PNG skin. Eto will install the skin loader for Fabric and apply it to this game profile.")
-                .setView(username)
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("Choose PNG", (d, w) -> {
-                    String name = username.getText().toString().trim();
-                    if (name.isEmpty() || !name.matches("[A-Za-z0-9_]{1,16}")) {
-                        Toast.makeText(requireContext(), "Enter a valid Minecraft username", Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                    requireContext().getSharedPreferences("eto_style", 0).edit().putString("skin_username", name).apply();
-                    Intent pick = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                    pick.addCategory(Intent.CATEGORY_OPENABLE);
-                    pick.setType("image/png");
-                    startActivityForResult(pick, 8304);
-                }).show();
-        });
+        android.widget.Button skinButton = view.findViewById(R.id.skin_button);
+        skinButton.setOnClickListener(v -> showEtoSkinPicker());
 """, 1)
+
+private void showEtoSkinPicker() {
+    android.widget.EditText username = new android.widget.EditText(requireContext());
+    username.setSingleLine(true);
+    username.setHint("Minecraft username (Guest name)");
+    username.setText(requireContext().getSharedPreferences("eto_style", 0).getString("skin_username", ""));
+    new AlertDialog.Builder(requireContext())
+        .setTitle("Eto Skin Studio")
+        .setMessage("Choose your Minecraft username, then select a 64x64 or 64x32 PNG skin. The skin is stored locally for your selected game profile.")
+        .setView(username)
+        .setNegativeButton("Cancel", null)
+        .setPositiveButton("Choose PNG", (d, w) -> {
+            String name = username.getText().toString().trim();
+            if (name.isEmpty() || !name.matches("[A-Za-z0-9_]{1,16}")) {
+                Toast.makeText(requireContext(), "Enter a valid Minecraft username", Toast.LENGTH_LONG).show();
+                return;
+            }
+            requireContext().getSharedPreferences("eto_style", 0).edit().putString("skin_username", name).apply();
+            Intent pick = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            pick.addCategory(Intent.CATEGORY_OPENABLE);
+            pick.setType("image/png");
+            startActivityForResult(pick, 8304);
+        }).show();
+}
 
 # Extend the existing picker handler with skin import before its image/video guard.
 old = '        if (data == null || data.getData() == null || (requestCode != ETO_PICK_IMAGE && requestCode != ETO_PICK_VIDEO)) return;'
