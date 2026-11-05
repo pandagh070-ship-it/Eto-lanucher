@@ -11,7 +11,8 @@ imports = [
     "import android.widget.Toast;",
     "import java.net.HttpURLConnection;",
     "import java.net.URL;",
-    "import org.json.JSONObject;"
+    "import org.json.JSONObject;",
+    "import net.kdt.pojavlaunch.BuildConfig;"
 ]
 for imp in imports:
     if imp not in s:
