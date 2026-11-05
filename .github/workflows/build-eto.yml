@@ -224,8 +224,8 @@ jobs:
               "Updated Eto Launcher interface",
               "Dedicated Skin Studio button in the main menu",
               "In-app update checker and APK download",
-              "Performance update delivery test",
-              "Refreshed low-end Minecraft performance defaults"
+              "Fixed public latest-release update discovery",
+              "Improved in-app update delivery"
             ]
           }
           EOF
@@ -235,7 +235,7 @@ jobs:
         with:
           tag_name: eto-build-${{ github.run_number }}
           name: Eto Launcher build ${{ github.run_number }}
-          prerelease: true
+          prerelease: false
           make_latest: true
           files: |
             release-assets/EtoLauncher.apk
