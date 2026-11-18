@@ -34,8 +34,8 @@
         android:layout_height="0dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:paddingStart="34dp"
-        android:paddingEnd="34dp"
+        android:paddingStart="22dp"
+        android:paddingEnd="22dp"
         android:paddingTop="22dp"
         android:paddingBottom="22dp"
         android:background="@android:color/transparent"
@@ -53,21 +53,20 @@
             android:paddingEnd="28dp">
 
             <TextView android:id="@+id/eto_home_eyebrow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="YOUR NEXT ADVENTURE" android:textColor="#8FE6C0" android:textSize="10sp" android:textStyle="bold" android:letterSpacing="0.2"/>
-            <TextView android:id="@+id/eto_hero_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="MAKE THIS&#10;WORLD YOURS." android:textColor="#FFFFFF" android:textSize="36sp" android:textStyle="bold" android:letterSpacing="-0.025" android:lineSpacingMultiplier="0.94" android:paddingTop="12dp"/>
+            <TextView android:id="@+id/eto_hero_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="MAKE THIS&#10;WORLD YOURS." android:textColor="#FFFFFF" android:textSize="29sp" android:textStyle="bold" android:letterSpacing="-0.025" android:lineSpacingMultiplier="0.94" android:paddingTop="12dp"/>
             <TextView android:id="@+id/eto_hero_subtitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Your Minecraft worlds, profiles and tools — together in one clean place." android:textColor="#D5DEE8" android:textSize="13sp" android:lineSpacingMultiplier="1.15" android:paddingTop="10dp" android:paddingBottom="22dp"/>
 
-            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
-                <com.kdt.mcgui.LauncherMenuButton android:id="@+id/customize_button" android:layout_width="wrap_content" android:layout_height="46dp" android:minWidth="142dp" android:paddingStart="18dp" android:paddingEnd="18dp" android:text="APPEARANCE" android:textColor="#EAF4F0" android:textStyle="bold" android:textSize="11sp" android:backgroundTint="#263D3B" android:drawableStart="@drawable/ic_eto_edit" app:drawableStartSize="18dp"/>
-                <com.kdt.mcgui.LauncherMenuButton android:id="@+id/skin_button" android:layout_width="wrap_content" android:layout_height="46dp" android:layout_marginStart="10dp" android:minWidth="130dp" android:paddingStart="18dp" android:paddingEnd="18dp" android:text="SKIN STUDIO" android:textColor="#EAF4F0" android:textStyle="bold" android:textSize="11sp" android:backgroundTint="#263344" android:drawableStart="@drawable/ic_eto_account" app:drawableStartSize="18dp"/>
-                <com.kdt.mcgui.LauncherMenuButton android:id="@+id/mods_button" android:layout_width="wrap_content" android:layout_height="46dp" android:layout_marginStart="10dp" android:minWidth="105dp" android:paddingStart="18dp" android:paddingEnd="18dp" android:text="MODS" android:textColor="#EAF4F0" android:textStyle="bold" android:textSize="11sp" android:backgroundTint="#29433F" android:drawableStart="@drawable/ic_eto_folder" app:drawableStartSize="18dp"/>
-
-            </LinearLayout>
+            <GridLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:columnCount="2" android:alignmentMode="alignMargins" android:useDefaultMargins="true">
+                <com.kdt.mcgui.LauncherMenuButton android:id="@+id/customize_button" android:layout_width="0dp" android:layout_height="46dp" android:layout_columnWeight="1" android:layout_gravity="fill_horizontal" android:minWidth="0dp" android:paddingStart="8dp" android:paddingEnd="8dp" android:gravity="center" android:maxLines="1" android:ellipsize="end" android:text="APPEARANCE" android:textColor="#EAF4F0" android:textStyle="bold" android:textSize="10sp" android:backgroundTint="#263D3B" android:drawableStart="@drawable/ic_eto_edit" app:drawableStartSize="16dp"/>
+                <com.kdt.mcgui.LauncherMenuButton android:id="@+id/skin_button" android:layout_width="0dp" android:layout_height="46dp" android:layout_columnWeight="1" android:layout_gravity="fill_horizontal" android:minWidth="0dp" android:paddingStart="8dp" android:paddingEnd="8dp" android:gravity="center" android:maxLines="1" android:ellipsize="end" android:text="SKIN STUDIO" android:textColor="#EAF4F0" android:textStyle="bold" android:textSize="10sp" android:backgroundTint="#263344" android:drawableStart="@drawable/ic_eto_account" app:drawableStartSize="16dp"/>
+                <com.kdt.mcgui.LauncherMenuButton android:id="@+id/mods_button" android:layout_width="0dp" android:layout_height="46dp" android:layout_columnWeight="1" android:layout_columnSpan="2" android:layout_gravity="fill_horizontal" android:minWidth="0dp" android:paddingStart="8dp" android:paddingEnd="8dp" android:gravity="center" android:maxLines="1" android:ellipsize="end" android:text="MODS" android:textColor="#EAF4F0" android:textStyle="bold" android:textSize="10sp" android:backgroundTint="#29433F" android:drawableStart="@drawable/ic_eto_folder" app:drawableStartSize="16dp"/>
+            </GridLayout>
 
             <TextView android:id="@+id/eto_home_footer" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ETO NETWORK     •     BUILT FOR YOUR WORLDS" android:textColor="#AAB8C6" android:textSize="9sp" android:textStyle="bold" android:letterSpacing="0.1" android:paddingTop="30dp"/>
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="292dp"
+            android:layout_width="250dp"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center_vertical">
