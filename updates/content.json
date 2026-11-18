@@ -1,11 +1,12 @@
 {
-  "contentVersion": 1,
-  "versionName": "Eto Live Content 1",
-  "title": "Eto Launcher is evolving",
-  "message": "Live updates are now enabled. New launcher news, announcements and supported content can be delivered here without downloading a new APK.",
+  "contentVersion": 2,
+  "versionName": "Eto Content 2",
+  "title": "Eto has a new look",
+  "message": "The launcher home screen has been redesigned. Content updates are delivered separately from Minecraft and the launcher APK.",
   "changelog": [
-    "Added in-launcher live content updater",
-    "Updates are downloaded only when you press Update",
-    "No APK replacement for content and announcement updates"
-  ]
+    "New redesigned Eto home screen",
+    "Content update channel supports downloadable files with progress",
+    "Updates do not include Minecraft game files or the launcher APK"
+  ],
+  "assets": []
 }
