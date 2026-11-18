@@ -13,9 +13,13 @@ for old, new in [
 
 needle = "        mVersionSpinner = view.findViewById(R.id.mc_version_spinner);"
 if "startEtoIntroTrailer(view);" not in s:
-    if needle not in s:
+    apply_anchor = "        applyEtoCustomization(view);"
+    if apply_anchor in s:
+        s = s.replace(apply_anchor, apply_anchor + "\n        startEtoIntroTrailer(view);", 1)
+    elif needle in s:
+        s = s.replace(needle, needle + "\n        startEtoIntroTrailer(view);", 1)
+    else:
         raise SystemExit("Eto intro insertion point missing")
-    s = s.replace(needle, needle + "\n        startEtoIntroTrailer(view);", 1)
 
 methods = r"""
     // Plays the bundled Eto trailer behind the launcher UI on every fresh menu creation.
