@@ -355,7 +355,18 @@ methods = r'''
 
     private void setEtoLabel(View root, int id, String value) {
         View target = root.findViewById(id);
-        if (target instanceof TextView) ((TextView) target).setText(value);
+        if (target instanceof TextView) {
+            TextView label = (TextView) target;
+            label.setText(value);
+            if (target instanceof android.widget.Button) {
+                label.setSingleLine(true);
+                label.setEllipsize(android.text.TextUtils.TruncateAt.END);
+                label.setIncludeFontPadding(false);
+                if (android.os.Build.VERSION.SDK_INT >= 26) {
+                    label.setAutoSizeTextTypeUniformWithConfiguration(8, 11, 1, android.util.TypedValue.COMPLEX_UNIT_SP);
+                }
+            }
+        }
     }
 
     private void tintEtoText(View v, int color) {
