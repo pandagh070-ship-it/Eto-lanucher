@@ -230,8 +230,8 @@ if "private void installEtoPerformancePack()" not in s:
     if pos < 0: raise SystemExit("MainMenuFragment class end missing")
     s = s[:pos] + "\n" + methods + s[pos:]
 
-# Keep Modrinth project version parsing aligned with newer four-part version IDs.
-old_extract = '''        java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("\\\\d+(?:\\\\.\\\\d+){1,3}").matcher(raw);
+# Parse the final version segment from IDs such as fabric-loader-0.18.0-1.26.2.1.
+old_extract = '''        java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("\\\\d+\\\\.\\\\d+(?:\\\\.\\\\d+)?").matcher(raw);
         return matcher.find() ? matcher.group() : "1.20.1";'''
 new_extract = '''        java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("\\\\d+(?:\\\\.\\\\d+){1,3}").matcher(raw);
         String version = null;
@@ -240,7 +240,7 @@ new_extract = '''        java.util.regex.Matcher matcher = java.util.regex.Patte
 if old_extract in s:
     s = s.replace(old_extract, new_extract, 1)
 elif new_extract not in s:
-    raise SystemExit("Could not update Minecraft version extraction to prefer the final version segment")
+    raise SystemExit("Could not update Minecraft version extraction")
 
 p.write_text(s, encoding="utf-8")
 print("Added Modrinth performance pack, per-profile Ultra Lite options, and 10% resolution scaling.")
