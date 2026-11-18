@@ -94,6 +94,15 @@ methods = r'''
         etoModsType = new android.widget.Spinner(requireContext());
         String[] types = {"Mods", "Shaders"};
         etoModsType.setAdapter(new android.widget.ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_dropdown_item, types));
+        etoModsType.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override public void onNothingSelected(android.widget.AdapterView<?> parent) {}
+            @Override public void onItemSelected(android.widget.AdapterView<?> parent, View item, int position, long id) {
+                String[] choices = position == 1 ? new String[]{"Iris", "OptiFine"} :
+                        new String[]{"Fabric", "Forge", "NeoForge", "Quilt"};
+                etoModsLoader.setAdapter(new android.widget.ArrayAdapter<>(requireContext(),
+                        android.R.layout.simple_spinner_dropdown_item, choices));
+            }
+        });
         filters.addView(etoModsType, new android.widget.LinearLayout.LayoutParams(0, 42, 0.75f));
 
         android.widget.LinearLayout searchRow = new android.widget.LinearLayout(requireContext());
