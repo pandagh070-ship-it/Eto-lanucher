@@ -24,6 +24,10 @@ methods = r"""
     private void startEtoIntroTrailer(View root) {
         if (!(root instanceof ViewGroup) || !isAdded()) return;
         ViewGroup group = (ViewGroup) root;
+        // Keep the root transparent so its SurfaceView can actually be seen.
+        root.setBackgroundColor(android.graphics.Color.TRANSPARENT);
+        View contentPanel = root.findViewById(R.id.eto_news_area);
+        if (contentPanel != null) contentPanel.setBackgroundColor(0x00101820);
         if (etoIntroPlayer != null) {
             try { etoIntroPlayer.stopPlayback(); } catch (Exception ignored) {}
         }
@@ -32,7 +36,7 @@ methods = r"""
         player.setTag("eto-intro-trailer");
         player.setClickable(false);
         player.setFocusable(false);
-        player.setBackgroundColor(android.graphics.Color.BLACK);
+        player.setBackgroundColor(android.graphics.Color.TRANSPARENT);
         androidx.constraintlayout.widget.ConstraintLayout.LayoutParams lp =
                 new androidx.constraintlayout.widget.ConstraintLayout.LayoutParams(-1, -1);
         lp.startToStart = androidx.constraintlayout.widget.ConstraintLayout.LayoutParams.PARENT_ID;
