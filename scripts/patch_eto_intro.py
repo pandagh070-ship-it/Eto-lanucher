@@ -65,6 +65,7 @@ methods = r"""
             etoIntroPlayed = true;
             etoIntroAudioActive = true;
             mp.setLooping(false);
+            if (android.os.Build.VERSION.SDK_INT >= 24) mp.setVideoScalingMode(android.media.MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
             mp.setVolume(0.85f, 0.85f);
             if (etoBackgroundMediaPlayer != null) {
                 try { etoBackgroundMediaPlayer.setVolume(0f, 0f); } catch (Exception ignored) {}
@@ -76,7 +77,7 @@ methods = r"""
                     child.setVisibility(View.VISIBLE);
                     child.animate().alpha(1f).setDuration(650).start();
                 }
-            }, 8000L);
+            }, 11000L);
         });
         player.setOnCompletionListener(mp -> {
             etoIntroAudioActive = false;
@@ -121,4 +122,4 @@ if marker in s and "stopEtoIntroPlayback();" not in s:
     s = s.replace(marker, marker + "\n        stopEtoIntroPlayback();", 1)
 
 p.write_text(s, encoding="utf-8")
-print("Added Eto intro trailer with 8-second opening, isolated intro audio, and background audio restored after the intro ends.")
+print("Added Eto intro trailer with 11-second opening, isolated intro audio, and background audio restored after the intro ends.")
