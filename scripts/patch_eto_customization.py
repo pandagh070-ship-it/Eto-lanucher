@@ -32,6 +32,7 @@ methods = r'''
     private static final int ETO_PICK_VIDEO = 8302;
     private static final int ETO_PICK_MUSIC = 8303;
     private static android.media.MediaPlayer etoMusicPlayer;
+    private static android.media.MediaPlayer etoBackgroundMediaPlayer;
 
     private void showEtoCustomization() {
         android.widget.LinearLayout panel = new android.widget.LinearLayout(requireContext());
@@ -196,7 +197,7 @@ methods = r'''
                 }
                 final VideoView player = vv;
                 player.setVideoURI(Uri.parse(video));
-                player.setOnPreparedListener(mp -> { mp.setLooping(true); mp.setVolume(1f,1f); player.start(); });
+                player.setOnPreparedListener(mp -> { mp.setLooping(true); etoBackgroundMediaPlayer = mp; mp.setVolume(0f,0f); player.start(); });
                 player.setVisibility(View.VISIBLE);
                 View panel = root.findViewById(R.id.eto_news_area);
                 if (panel != null) panel.setBackgroundColor(Color.TRANSPARENT);
