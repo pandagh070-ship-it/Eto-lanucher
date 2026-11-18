@@ -1,0 +1,11 @@
+{
+  "contentVersion": 1,
+  "versionName": "Eto Live Content 1",
+  "title": "Eto Launcher is evolving",
+  "message": "Live updates are now enabled. New launcher news, announcements and supported content can be delivered here without downloading a new APK.",
+  "changelog": [
+    "Added in-launcher live content updater",
+    "Updates are downloaded only when you press Update",
+    "No APK replacement for content and announcement updates"
+  ]
+}
