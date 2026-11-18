@@ -405,7 +405,7 @@ methods = r'''
             syncEtoManagedFolder(game, new File(etoModsVersionRoot(instance), "mods"), "mods", ".eto-managed-mods.txt");
             syncEtoManagedFolder(game, new File(etoModsVersionRoot(instance), "shaderpacks"), "shaderpacks", ".eto-managed-shaders.txt");
         } catch (Exception error) {
-            Log.e("EtoMods", "Could not activate version-specific mods", error);
+            android.util.Log.e("EtoMods", "Could not activate version-specific mods", error);
             Toast.makeText(requireContext(), "Eto could not activate its mods: " + error.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
