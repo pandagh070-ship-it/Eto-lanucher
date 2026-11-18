@@ -208,12 +208,12 @@ jobs:
           p = Path("upstream/app_pojavlauncher/build.gradle")
           s = p.read_text(encoding="utf-8")
           run_number = int(os.environ["GITHUB_RUN_NUMBER"])
-          match = re.search(r"(?m)^(\\s*versionCode\\s*(?:=\\s*)?)(\\d+)", s)
+          match = re.search(r"(?m)^(\s*versionCode\s*(?:=\s*)?)(\d+)", s)
           if not match:
               raise SystemExit("Could not find Android versionCode in app build.gradle")
           version_code = int(match.group(2)) + run_number
           s = s[:match.start(2)] + str(version_code) + s[match.end(2):]
-          name = re.search(r'(?m)^(\\s*versionName\\s*(?:=\\s*)?)["\\']([^"\\']*)["\\']', s)
+          name = re.search(r'(?m)^(\s*versionName\s*(?:=\s*)?)["\']([^"\']*)["\']', s)
           if name:
               s = s[:name.start(2)] + f"Eto build {run_number}" + s[name.end(2):]
           p.write_text(s, encoding="utf-8")
