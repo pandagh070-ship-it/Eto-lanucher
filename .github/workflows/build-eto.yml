@@ -209,12 +209,17 @@ jobs:
           s = p.read_text(encoding="utf-8")
           run_number = int(os.environ["GITHUB_RUN_NUMBER"])
           # Pojav computes versionCode dynamically with getDateSeconds().
-          # In GitHub Actions that function returns GITHUB_RUN_NUMBER.
-          match = re.search(r"(?m)^(\\s*versionCode\\s+)getDateSeconds\\(\\)", s)
-          if not match:
-              raise SystemExit("Could not find dynamic versionCode getDateSeconds() in app build.gradle")
+          # Pin it to this workflow run so Android and update.json match.
           version_code = run_number
-          s = s[:match.start()] + match.group(1) + str(version_code) + s[match.end():]
+          lines = s.splitlines()
+          for i, line in enumerate(lines):
+              if line.strip().startswith("versionCode") and "getDateSeconds()" in line:
+                  indent = line[:len(line) - len(line.lstrip())]
+                  lines[i] = indent + "versionCode " + str(version_code)
+                  break
+          else:
+              raise SystemExit("Could not find dynamic versionCode getDateSeconds() in app build.gradle")
+          s = "\\n".join(lines) + "\\n"
           p.write_text(s, encoding="utf-8")
           Path("eto-version-code.txt").write_text(str(version_code), encoding="utf-8")
           print(f"Android versionCode and update manifest will use {version_code}")
