@@ -186,6 +186,11 @@ jobs:
 
       - name: Add functional Eto customization
         run: python3 scripts/patch_eto_customization.py
+      - name: Bundle Eto intro trailer video
+        run: |
+          mkdir -p upstream/app_pojavlauncher/src/main/res/raw
+          cp "eto-ui/FanMade Minecraft Trailer(MP4).mp4" upstream/app_pojavlauncher/src/main/res/raw/eto_intro.mp4
+          python3 scripts/patch_eto_intro.py
       - name: Add local Minecraft skin support
         run: |
           python3 scripts/patch_eto_skin.py
