@@ -63,6 +63,7 @@ methods = r"""
         player.setVideoURI(trailer);
         player.setOnPreparedListener(mp -> {
             etoIntroPlayed = true;
+            etoIntroAudioActive = true;
             mp.setLooping(false);
             mp.setVolume(0.85f, 0.85f);
             if (etoBackgroundMediaPlayer != null) {
@@ -78,12 +79,14 @@ methods = r"""
             }, 8000L);
         });
         player.setOnCompletionListener(mp -> {
+            etoIntroAudioActive = false;
             if (etoBackgroundMediaPlayer != null) {
                 try { etoBackgroundMediaPlayer.setVolume(1f, 1f); } catch (Exception ignored) {}
             }
             player.setVisibility(View.GONE);
         });
         player.setOnErrorListener((mp, what, extra) -> {
+            etoIntroAudioActive = false;
             if (etoBackgroundMediaPlayer != null) {
                 try { etoBackgroundMediaPlayer.setVolume(1f, 1f); } catch (Exception ignored) {}
             }
@@ -96,6 +99,7 @@ methods = r"""
     }
 
     private void stopEtoIntroPlayback() {
+        etoIntroAudioActive = false;
         if (etoIntroPlayer != null) {
             try { etoIntroPlayer.stopPlayback(); } catch (Exception ignored) {}
             etoIntroPlayer = null;
