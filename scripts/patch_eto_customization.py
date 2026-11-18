@@ -350,7 +350,7 @@ methods = r'''
         ImageButton settings = root.findViewById(R.id.eto_settings_button);
         if (settings != null) settings.setContentDescription(ar ? "الإعدادات" : fr ? "Paramètres" : "Settings");
         ImageButton account = root.findViewById(R.id.edit_profile_button);
-        if (account != null) account.setContentDescription(ar ? "الحساب" : fr ? "Compte" : "Account");
+        if (account != null) account.setContentDescription(ar ? "تعديل ملف اللعبة" : fr ? "Modifier le profil" : "Edit game profile");
     }
 
     private void setEtoLabel(View root, int id, String value) {
