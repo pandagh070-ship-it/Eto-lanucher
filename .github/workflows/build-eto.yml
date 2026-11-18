@@ -24,6 +24,20 @@ jobs:
           git clone --depth 1 --recurse-submodules https://github.com/TeamPojavLauncher/PojavLauncher.git upstream
           git -C upstream log -1 --oneline
 
+      - name: Fix upstream package imports in GameRunner
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path("upstream/app_pojavlauncher/src/main/java/net/kdt/pojavlaunch/utils/jre/GameRunner.java")
+          s = p.read_text(encoding="utf-8")
+          s = s.replace("net.kdt.pojavlaunch.utils.lifecycle.LifecycleAwareAlertDialog", "net.kdt.pojavlaunch.lifecycle.LifecycleAwareAlertDialog")
+          s = s.replace("net.kdt.pojavlaunch.utils.plugins.LibraryPlugin", "net.kdt.pojavlaunch.plugins.LibraryPlugin")
+          if "net.kdt.pojavlaunch.utils.lifecycle.LifecycleAwareAlertDialog" in s or "net.kdt.pojavlaunch.utils.plugins.LibraryPlugin" in s:
+              raise SystemExit("Failed to correct GameRunner imports")
+          p.write_text(s, encoding="utf-8")
+          print("Corrected GameRunner imports to match the actual upstream package paths.")
+          PY
+
       - name: Set up Java 8 toolchain
         uses: actions/setup-java@v4
         with:
