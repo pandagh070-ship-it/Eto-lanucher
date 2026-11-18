@@ -13,7 +13,8 @@ for imp in [
     "import java.io.File;",
     "import java.io.FileOutputStream;",
     "import java.nio.charset.StandardCharsets;",
-    "import android.app.ProgressDialog;"
+    "import android.app.ProgressDialog;",
+    "import android.widget.ProgressBar;"
 ]:
     if imp not in s:
         anchor = "import android.content.Intent;"
@@ -25,10 +26,10 @@ needle = "        mVersionSpinner = view.findViewById(R.id.mc_version_spinner);"
 if "checkEtoContentUpdates();" not in s:
     if needle not in s:
         raise SystemExit("Content updater insertion point missing")
-    s = s.replace(needle, needle + "\n        applyEtoRemoteContent(view);\n        checkEtoContentUpdates();", 1)
+    s = s.replace(needle, needle + "\n        applyEtoRemoteContent(view);\n        setupEtoUpdateControls(view);\n        checkEtoContentUpdates();", 1)
 
 methods = r"""
-    // Eto content channel: downloads only explicitly listed data assets, never the game or APK.
+    // Downloads only explicitly listed Eto content assets. Android app code/APK is never downloaded here.
     private static final String ETO_CONTENT_URL =
             "https://raw.githubusercontent.com/pandagh070-ship-it/Eto-lanucher/main/updates/content.json";
 
@@ -47,9 +48,27 @@ methods = r"""
             while ((n = in.read(buffer)) != -1) out.write(buffer, 0, n);
             in.close();
             return new JSONObject(new String(out.toByteArray(), StandardCharsets.UTF_8));
-        } finally {
-            c.disconnect();
-        }
+        } finally { c.disconnect(); }
+    }
+
+    private void setupEtoUpdateControls(View root) {
+        Button button = root.findViewById(R.id.eto_update_button);
+        if (button == null) return;
+        button.setVisibility(View.GONE);
+        button.setOnClickListener(v -> {
+            try {
+                new Thread(() -> {
+                    try {
+                        JSONObject data = fetchEtoContent();
+                        if (!isAdded()) return;
+                        requireActivity().runOnUiThread(() -> showEtoContentUpdateDialog(data));
+                    } catch (Exception error) {
+                        if (isAdded()) requireActivity().runOnUiThread(() ->
+                                android.widget.Toast.makeText(requireContext(), "Could not check update: " + error.getMessage(), android.widget.Toast.LENGTH_LONG).show());
+                    }
+                }, "EtoUpdateDetails").start();
+            } catch (Exception ignored) {}
+        });
     }
 
     private void checkEtoContentUpdates() {
@@ -57,45 +76,55 @@ methods = r"""
             try {
                 JSONObject remote = fetchEtoContent();
                 int latest = remote.optInt("contentVersion", 0);
-                int installed = requireContext().getSharedPreferences("eto_live_content", 0)
-                        .getInt("content_version", 0);
-                if (latest <= installed || !isAdded()) return;
-                String version = remote.optString("versionName", "Eto content update");
-                JSONArray changes = remote.optJSONArray("changelog");
-                StringBuilder notes = new StringBuilder();
-                if (changes != null) for (int i = 0; i < changes.length(); i++)
-                    notes.append("• ").append(changes.optString(i)).append("\n");
-                JSONArray assets = remote.optJSONArray("assets");
-                int count = assets == null ? 0 : assets.length();
-                String message = "New content is ready: " + count + " downloadable file(s).\n\n"
-                        + (notes.length() == 0 ? "Content and launcher news." : notes.toString())
-                        + "\nOnly listed content files will download. Minecraft and the launcher APK are not included.";
+                int installed = requireContext().getSharedPreferences("eto_live_content", 0).getInt("content_version", 0);
+                if (!isAdded()) return;
                 requireActivity().runOnUiThread(() -> {
                     if (!isAdded()) return;
-                    new AlertDialog.Builder(requireContext())
-                            .setTitle("Eto update • " + version)
-                            .setMessage(message)
-                            .setCancelable(true)
-                            .setNegativeButton("Later", null)
-                            .setPositiveButton("Update", (dialog, which) -> downloadEtoContentUpdate())
-                            .show();
+                    Button button = getView() == null ? null : getView().findViewById(R.id.eto_update_button);
+                    if (button != null) {
+                        if (latest > installed) {
+                            button.setVisibility(View.VISIBLE);
+                            button.setText("DOWNLOAD UPDATE  •  " + remote.optString("versionName", "NEW"));
+                        } else button.setVisibility(View.GONE);
+                    }
                 });
             } catch (Exception ignored) {
-                // Offline: keep the last successfully installed content.
+                // Offline: keep the installed content and hide no existing launcher features.
             }
         }, "EtoContentCheck").start();
     }
 
+    private void showEtoContentUpdateDialog(JSONObject remote) {
+        if (!isAdded()) return;
+        JSONArray changes = remote.optJSONArray("changelog");
+        StringBuilder notes = new StringBuilder();
+        if (changes != null) for (int i = 0; i < changes.length(); i++)
+            notes.append("• ").append(changes.optString(i)).append("\n");
+        JSONArray assets = remote.optJSONArray("assets");
+        int count = assets == null ? 0 : assets.length();
+        String message = "Version: " + remote.optString("versionName", "Eto update") + "\n\n"
+                + (notes.length() == 0 ? "Eto content improvements." : notes.toString())
+                + "\nOnly " + count + " listed content file(s) will be downloaded. Minecraft files and the launcher APK are not touched.";
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Eto update available")
+                .setMessage(message)
+                .setNegativeButton("Later", null)
+                .setPositiveButton("Update now", (dialog, which) -> downloadEtoContentUpdate())
+                .show();
+    }
+
     private void downloadEtoContentUpdate() {
-        final ProgressDialog progress = new ProgressDialog(requireContext());
-        progress.setTitle("Updating Eto content");
-        progress.setMessage("Preparing update...");
-        progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progress.setIndeterminate(false);
-        progress.setMax(100);
-        progress.setProgress(0);
-        progress.setCancelable(false);
-        progress.show();
+        View root = getView();
+        if (root == null) return;
+        ProgressBar bar = root.findViewById(R.id.eto_update_progress);
+        TextView status = root.findViewById(R.id.eto_update_status);
+        Button button = root.findViewById(R.id.eto_update_button);
+        if (bar == null || status == null) return;
+        bar.setVisibility(View.VISIBLE);
+        bar.setProgress(0);
+        status.setVisibility(View.VISIBLE);
+        status.setText("Preparing Eto update...");
+        if (button != null) button.setEnabled(false);
 
         new Thread(() -> {
             try {
@@ -127,8 +156,7 @@ methods = r"""
                         int length = connection.getContentLength();
                         File target = new File(directory, name);
                         File temporary = new File(directory, name + ".part");
-                        try (InputStream in = connection.getInputStream();
-                             FileOutputStream out = new FileOutputStream(temporary)) {
+                        try (InputStream in = connection.getInputStream(); FileOutputStream out = new FileOutputStream(temporary)) {
                             byte[] buffer = new byte[8192];
                             int read, total = 0;
                             while ((read = in.read(buffer)) != -1) {
@@ -137,10 +165,8 @@ methods = r"""
                                 if (length > 0) {
                                     final int overall = Math.min(99, ((i * 100) + (total * 100 / length)) / Math.max(1, count));
                                     requireActivity().runOnUiThread(() -> {
-                                        if (progress.isShowing()) {
-                                            progress.setMessage("Downloading " + name);
-                                            progress.setProgress(overall);
-                                        }
+                                        if (bar.getWindowToken() != null) bar.setProgress(overall);
+                                        status.setText("Downloading " + name + " • " + overall + "%");
                                     });
                                 }
                             }
@@ -148,9 +174,12 @@ methods = r"""
                         }
                         if (target.exists() && !target.delete()) throw new java.io.IOException("Cannot replace " + name);
                         if (!temporary.renameTo(target)) throw new java.io.IOException("Cannot install " + name);
-                    } finally {
-                        connection.disconnect();
-                    }
+                    } finally { connection.disconnect(); }
+                    final int fileProgress = ((i + 1) * 100) / Math.max(1, count);
+                    requireActivity().runOnUiThread(() -> {
+                        bar.setProgress(fileProgress);
+                        status.setText("Installing content • " + fileProgress + "%");
+                    });
                 }
 
                 requireContext().getSharedPreferences("eto_live_content", 0).edit()
@@ -158,28 +187,24 @@ methods = r"""
                         .putString("version_name", data.optString("versionName", "Eto content"))
                         .putString("title", data.optString("title", "Eto Launcher"))
                         .putString("message", data.optString("message", "Welcome to Eto Launcher"))
-                        .putString("changelog", data.optJSONArray("changelog") == null
-                                ? "" : data.optJSONArray("changelog").toString())
+                        .putString("changelog", data.optJSONArray("changelog") == null ? "" : data.optJSONArray("changelog").toString())
                         .apply();
                 requireActivity().runOnUiThread(() -> {
-                    if (progress.isShowing()) progress.dismiss();
                     if (!isAdded()) return;
-                    progress.setProgress(100);
+                    bar.setProgress(100);
+                    status.setText("Eto content updated successfully.");
+                    if (button != null) { button.setVisibility(View.GONE); button.setEnabled(true); }
                     applyEtoRemoteContent(getView());
-                    android.widget.Toast.makeText(requireContext(),
-                            "Eto content updated • " + count + " file(s)",
-                            android.widget.Toast.LENGTH_LONG).show();
+                    android.widget.Toast.makeText(requireContext(), "Eto content updated • " + count + " file(s)", android.widget.Toast.LENGTH_LONG).show();
                 });
             } catch (Exception error) {
                 requireActivity().runOnUiThread(() -> {
-                    if (progress.isShowing()) progress.dismiss();
                     if (!isAdded()) return;
-                    new AlertDialog.Builder(requireContext())
-                            .setTitle("Update failed")
-                            .setMessage("Could not install Eto content.\n" + error.getMessage())
-                            .setPositiveButton("Retry", (d, w) -> downloadEtoContentUpdate())
-                            .setNegativeButton("Close", null)
-                            .show();
+                    status.setText("Update failed. Your existing content was kept.");
+                    if (button != null) button.setEnabled(true);
+                    new AlertDialog.Builder(requireContext()).setTitle("Update failed")
+                            .setMessage(error.getMessage()).setPositiveButton("Retry", (d, w) -> downloadEtoContentUpdate())
+                            .setNegativeButton("Close", null).show();
                 });
             }
         }, "EtoContentDownload").start();
@@ -192,8 +217,7 @@ methods = r"""
         TextView message = root.findViewById(R.id.eto_remote_message);
         TextView version = root.findViewById(R.id.eto_remote_version);
         if (title != null) title.setText(p.getString("title", "Welcome back."));
-        if (message != null) message.setText(p.getString("message",
-                "News and supported content updates appear here."));
+        if (message != null) message.setText(p.getString("message", "News and supported content updates appear here."));
         if (version != null) version.setText("CONTENT CHANNEL • " + p.getString("version_name", "READY"));
     }
 
