@@ -31,6 +31,9 @@
 <TextView android:id="@+id/eto_remote_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Welcome back." android:textColor="#FFFFFF" android:textSize="18sp" android:textStyle="bold" android:paddingTop="5dp"/>
 <TextView android:id="@+id/eto_remote_message" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="News and supported content updates appear here." android:textColor="#D4DEE8" android:textSize="12sp" android:paddingTop="5dp"/>
 <TextView android:id="@+id/eto_remote_version" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CONTENT CHANNEL  •  READY" android:textColor="#8FE6C0" android:textSize="9sp" android:paddingTop="8dp"/>
+<androidx.appcompat.widget.AppCompatButton android:id="@+id/eto_update_button" android:layout_width="match_parent" android:layout_height="42dp" android:layout_marginTop="12dp" android:text="DOWNLOAD UPDATE" android:textAllCaps="true" android:textStyle="bold" android:textColor="#07140F" android:backgroundTint="#8FE6C0" android:visibility="gone"/>
+<ProgressBar android:id="@+id/eto_update_progress" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="7dp" android:layout_marginTop="9dp" android:max="100" android:progress="0" android:progressTint="#8FE6C0" android:visibility="gone"/>
+<TextView android:id="@+id/eto_update_status" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="#D4DEE8" android:textSize="11sp" android:paddingTop="5dp" android:visibility="gone"/>
 </LinearLayout>
 <View android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
 <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="JAVA EDITION  •  ETO NETWORK" android:textColor="#C1CCD8" android:textSize="9sp" android:gravity="end" android:paddingBottom="5dp"/>
