@@ -52,6 +52,8 @@ methods = r"""
         java.util.ArrayList<View> menuViews = new java.util.ArrayList<>();
         for (int i = 1; i < group.getChildCount(); i++) {
             View child = group.getChildAt(i);
+            // Keep the user's selected background video visible beneath the intro.
+            if ("eto-video".equals(child.getTag())) continue;
             menuViews.add(child);
             child.setAlpha(0f);
             child.setVisibility(View.INVISIBLE);
