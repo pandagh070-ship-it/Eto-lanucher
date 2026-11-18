@@ -226,6 +226,9 @@ jobs:
         run: |
           python3 scripts/patch_eto_updater.py
 
+      - name: Add Eto Mods and Shaders manager
+        run: python3 scripts/patch_eto_mods.py
+
       - name: Set matching Android and update-manifest version
         env:
           GITHUB_RUN_NUMBER: ${{ github.run_number }}
