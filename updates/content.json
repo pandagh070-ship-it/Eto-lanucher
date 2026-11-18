@@ -1,12 +1,12 @@
 {
-  "contentVersion": 2,
-  "versionName": "Eto Content 2",
-  "title": "Eto has a new look",
-  "message": "The launcher home screen has been redesigned. Content updates are delivered separately from Minecraft and the launcher APK.",
+  "contentVersion": 3,
+  "versionName": "Eto Content 3",
+  "title": "Eto update center is ready",
+  "message": "Your content update channel is ready. It downloads only listed Eto content files; it does not download Minecraft or the launcher APK.",
   "changelog": [
-    "New redesigned Eto home screen",
-    "Content update channel supports downloadable files with progress",
-    "Updates do not include Minecraft game files or the launcher APK"
+    "Added a persistent update button inside Eto Live",
+    "Added an on-screen progress bar for content downloads",
+    "Content updates remain separate from Minecraft and the launcher APK"
   ],
   "assets": []
 }
