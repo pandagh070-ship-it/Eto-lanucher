@@ -219,7 +219,7 @@ jobs:
                   break
           else:
               raise SystemExit("Could not find dynamic versionCode getDateSeconds() in app build.gradle")
-          s = "\\n".join(lines) + "\\n"
+          s = "\n".join(lines) + "\n"
           p.write_text(s, encoding="utf-8")
           Path("eto-version-code.txt").write_text(str(version_code), encoding="utf-8")
           print(f"Android versionCode and update manifest will use {version_code}")
