@@ -340,6 +340,7 @@ methods = r'''
         setEtoLabel(root, R.id.eto_hero_subtitle, ar ? "عوالم ماينكرافت وحساباتك وأدواتك في مكان واحد." : fr ? "Vos mondes Minecraft, profils et outils réunis au même endroit." : "Your Minecraft worlds, profiles and tools — together in one clean place.");
         setEtoLabel(root, R.id.customize_button, ar ? "المظهر" : fr ? "APPARENCE" : "APPEARANCE");
         setEtoLabel(root, R.id.skin_button, ar ? "استوديو السكن" : fr ? "SKIN STUDIO" : "SKIN STUDIO");
+        setEtoLabel(root, R.id.mods_button, ar ? "المودات" : fr ? "MODS" : "MODS");
         setEtoLabel(root, R.id.eto_library_title, ar ? "مكتبة الألعاب" : fr ? "BIBLIOTHÈQUE" : "GAME LIBRARY");
         setEtoLabel(root, R.id.install_jar_button, ar ? "+ إضافة إصدار" : fr ? "+ AJOUTER UNE VERSION" : "+  ADD GAME VERSION");
         setEtoLabel(root, R.id.play_button, ar ? "العب الآن  ←" : fr ? "JOUER  →" : "PLAY  →");
