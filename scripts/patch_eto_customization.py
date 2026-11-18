@@ -31,6 +31,7 @@ methods = r'''
     private static final int ETO_PICK_MUSIC = 8303;
     private static android.media.MediaPlayer etoMusicPlayer;
     private static android.media.MediaPlayer etoBackgroundMediaPlayer;
+    private static boolean etoIntroAudioActive = false;
 
     private void showEtoCustomization() {
         android.widget.LinearLayout panel = new android.widget.LinearLayout(requireContext());
@@ -202,7 +203,7 @@ methods = r'''
                     persistentPlayer.setOnPreparedListener(mp -> {
                         mp.setLooping(true);
                         etoBackgroundMediaPlayer = mp;
-                        mp.setVolume(0f, 0f);
+                        mp.setVolume(etoIntroAudioActive ? 0f : 1f, etoIntroAudioActive ? 0f : 1f);
                         persistentPlayer.start();
                     });
                     persistentPlayer.setOnErrorListener((mp, what, extra) -> true);
