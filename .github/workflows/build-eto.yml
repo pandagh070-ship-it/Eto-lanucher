@@ -232,6 +232,9 @@ jobs:
       - name: Fix Eto launcher UI actions and responsive layout
         run: python3 scripts/patch_eto_ui_fixes.py
 
+      - name: Enforce final Eto visible button action mapping
+        run: python3 scripts/patch_eto_final_actions.py
+
       - name: Set matching Android and update-manifest version
         env:
           GITHUB_RUN_NUMBER: ${{ github.run_number }}
