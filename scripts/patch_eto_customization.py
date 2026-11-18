@@ -202,6 +202,7 @@ methods = r'''
                     persistentPlayer.setVideoURI(Uri.parse(video));
                     persistentPlayer.setOnPreparedListener(mp -> {
                         mp.setLooping(true);
+                        if (android.os.Build.VERSION.SDK_INT >= 24) mp.setVideoScalingMode(android.media.MediaPlayer.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING);
                         etoBackgroundMediaPlayer = mp;
                         mp.setVolume(etoIntroAudioActive ? 0f : 1f, etoIntroAudioActive ? 0f : 1f);
                         persistentPlayer.start();
