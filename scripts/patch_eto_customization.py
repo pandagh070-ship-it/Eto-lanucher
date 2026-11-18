@@ -174,6 +174,8 @@ methods = r'''
         tintEtoText(root, prefs.getInt("text", Color.rgb(242,245,249)));
         try {
             String image = prefs.getString("image", null), video = prefs.getString("video", null);
+            // Replacing a selection clears the previous root drawable first; no stacked layers.
+            root.setBackground(null);
             View sidebar = root.findViewById(R.id.eto_sidebar);
             if (video != null && root instanceof ViewGroup) {
                 root.setBackgroundColor(Color.TRANSPARENT);
