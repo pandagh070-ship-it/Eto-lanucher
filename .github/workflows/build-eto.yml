@@ -24,7 +24,13 @@ jobs:
           git clone --depth 1 --recurse-submodules https://github.com/TeamPojavLauncher/PojavLauncher.git upstream
           git -C upstream log -1 --oneline
 
-      - name: Set up Java
+      - name: Set up Java 8 toolchain
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "8"
+
+      - name: Set up Java 17 for Android Gradle
         uses: actions/setup-java@v4
         with:
           distribution: temurin
