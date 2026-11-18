@@ -231,8 +231,16 @@ if "private void installEtoPerformancePack()" not in s:
     s = s[:pos] + "\n" + methods + s[pos:]
 
 # Keep Modrinth project version parsing aligned with newer four-part version IDs.
-s = s.replace('Pattern.compile("\\\\d+\\\\.\\\\d+(?:\\\\.\\\\d+)?")',
-              'Pattern.compile("\\\\d+(?:\\\\.\\\\d+){1,3}")')
+old_extract = '''        java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("\\\\d+(?:\\\\.\\\\d+){1,3}").matcher(raw);
+        return matcher.find() ? matcher.group() : "1.20.1";'''
+new_extract = '''        java.util.regex.Matcher matcher = java.util.regex.Pattern.compile("\\\\d+(?:\\\\.\\\\d+){1,3}").matcher(raw);
+        String version = null;
+        while (matcher.find()) version = matcher.group();
+        return version == null ? "1.20.1" : version;'''
+if old_extract in s:
+    s = s.replace(old_extract, new_extract, 1)
+elif new_extract not in s:
+    raise SystemExit("Could not update Minecraft version extraction to prefer the final version segment")
 
 p.write_text(s, encoding="utf-8")
 print("Added Modrinth performance pack, per-profile Ultra Lite options, and 10% resolution scaling.")
