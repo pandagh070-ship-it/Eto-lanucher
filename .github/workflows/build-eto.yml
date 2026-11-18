@@ -229,6 +229,9 @@ jobs:
       - name: Add Eto Mods and Shaders manager
         run: python3 scripts/patch_eto_mods.py
 
+      - name: Add Minecraft performance and low-resolution controls
+        run: python3 scripts/patch_eto_performance.py
+
       - name: Fix Eto launcher UI actions and responsive layout
         run: python3 scripts/patch_eto_ui_fixes.py
 
