@@ -59,8 +59,11 @@ methods = r"""
         Uri trailer = Uri.parse("android.resource://" + requireContext().getPackageName() + "/" + R.raw.eto_intro);
         player.setVideoURI(trailer);
         player.setOnPreparedListener(mp -> {
-            mp.setLooping(true);
+            mp.setLooping(false);
             mp.setVolume(0.85f, 0.85f);
+            if (etoBackgroundMediaPlayer != null) {
+                try { etoBackgroundMediaPlayer.setVolume(0f, 0f); } catch (Exception ignored) {}
+            }
             player.start();
             player.postDelayed(() -> {
                 if (!isAdded() || getView() != root) return;
@@ -68,9 +71,18 @@ methods = r"""
                     child.setVisibility(View.VISIBLE);
                     child.animate().alpha(1f).setDuration(650).start();
                 }
-            }, 5000L);
+            }, 8000L);
+        });
+        player.setOnCompletionListener(mp -> {
+            if (etoBackgroundMediaPlayer != null) {
+                try { etoBackgroundMediaPlayer.setVolume(1f, 1f); } catch (Exception ignored) {}
+            }
+            player.setVisibility(View.GONE);
         });
         player.setOnErrorListener((mp, what, extra) -> {
+            if (etoBackgroundMediaPlayer != null) {
+                try { etoBackgroundMediaPlayer.setVolume(1f, 1f); } catch (Exception ignored) {}
+            }
             for (View child : menuViews) {
                 child.setVisibility(View.VISIBLE);
                 child.setAlpha(1f);
@@ -83,6 +95,9 @@ methods = r"""
         if (etoIntroPlayer != null) {
             try { etoIntroPlayer.stopPlayback(); } catch (Exception ignored) {}
             etoIntroPlayer = null;
+        }
+        if (etoBackgroundMediaPlayer != null) {
+            try { etoBackgroundMediaPlayer.setVolume(1f, 1f); } catch (Exception ignored) {}
         }
     }
 
@@ -98,4 +113,4 @@ if marker in s and "stopEtoIntroPlayback();" not in s:
     s = s.replace(marker, marker + "\n        stopEtoIntroPlayback();", 1)
 
 p.write_text(s, encoding="utf-8")
-print("Added Eto intro trailer with 5-second clean opening, delayed fade-in menus, and looping playback.")
+print("Added Eto intro trailer with 8-second opening, isolated intro audio, and background audio restored after the intro ends.")
