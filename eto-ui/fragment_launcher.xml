@@ -1,46 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/fragment_menu_main" android:layout_width="match_parent" android:layout_height="match_parent" android:background="#00101820">
-<ScrollView android:id="@+id/eto_sidebar" android:layout_width="176dp" android:layout_height="0dp" android:fillViewport="true" android:clipToPadding="false" android:background="@drawable/eto_sidebar_panel" app:layout_constraintStart_toStartOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent">
-<LinearLayout android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:padding="18dp" android:paddingTop="30dp">
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ETO" android:textColor="#FFFFFF" android:textSize="32sp" android:textStyle="bold" android:letterSpacing="0.08"/>
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="MINECRAFT JAVA" android:textColor="#8FE6C0" android:textSize="10sp" android:textStyle="bold" android:letterSpacing="0.16" android:paddingBottom="28dp"/>
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="WORKSPACE" android:textColor="#8294A9" android:textSize="10sp" android:textStyle="bold" android:paddingBottom="9dp"/>
-<com.kdt.mcgui.LauncherMenuButton android:id="@+id/news_button" android:layout_width="match_parent" android:layout_height="1dp" android:visibility="gone" android:text="Home" android:textColor="#FFFFFF" android:backgroundTint="#214D3B" android:drawableStart="@drawable/ic_eto_home"/>
-<com.kdt.mcgui.LauncherMenuButton android:id="@+id/social_media_button" android:layout_width="match_parent" android:layout_height="1dp" android:visibility="gone" android:text="Community"/>
-<com.kdt.mcgui.LauncherMenuButton android:id="@+id/customize_button" android:layout_width="match_parent" android:layout_height="46dp" android:layout_marginBottom="8dp" android:text="  Appearance" android:textColor="#F3F7FB" android:backgroundTint="#1C2C3B" android:drawableStart="@drawable/ic_eto_edit"/>
-<com.kdt.mcgui.LauncherMenuButton android:id="@+id/skin_button" android:layout_width="match_parent" android:layout_height="46dp" android:layout_marginBottom="8dp" android:text="  Skin Studio" android:textColor="#F3F7FB" android:backgroundTint="#1C2C3B" android:drawableStart="@drawable/ic_eto_account"/>
-<com.kdt.mcgui.LauncherMenuButton android:id="@+id/custom_control_button" android:layout_width="match_parent" android:layout_height="46dp" android:layout_marginBottom="8dp" android:text="  Controls" android:textColor="#F3F7FB" android:backgroundTint="#1C2C3B" android:drawableStart="@drawable/ic_eto_controls"/>
-<com.kdt.mcgui.LauncherMenuButton android:id="@+id/open_files_button" android:layout_width="match_parent" android:layout_height="46dp" android:layout_marginBottom="8dp" android:text="  Game files" android:textColor="#F3F7FB" android:backgroundTint="#1C2C3B" android:drawableStart="@drawable/ic_eto_folder"/>
-<com.kdt.mcgui.LauncherMenuButton android:id="@+id/share_logs_button" android:layout_width="match_parent" android:layout_height="46dp" android:layout_marginBottom="8dp" android:text="  Debug logs" android:textColor="#F3F7FB" android:backgroundTint="#1C2C3B" android:drawableStart="@drawable/ic_eto_logs"/>
-<View android:layout_width="match_parent" android:layout_height="1dp" android:layout_marginTop="12dp" android:layout_marginBottom="12dp" android:background="#3A4655"/>
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ETO LAUNCHER" android:textColor="#8294A9" android:textSize="10sp" android:textStyle="bold"/>
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="A lighter way to play." android:textColor="#C3CFDA" android:textSize="12sp" android:paddingTop="5dp"/>
-</LinearLayout></ScrollView>
-<LinearLayout android:id="@+id/eto_news_area" android:layout_width="0dp" android:layout_height="0dp" android:orientation="vertical" android:padding="24dp" android:paddingTop="62dp" android:background="#00101820" app:layout_constraintStart_toEndOf="@id/eto_sidebar" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent">
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ETO  /  GAME CENTER" android:textColor="#8FE6C0" android:textSize="10sp" android:textStyle="bold" android:letterSpacing="0.18"/>
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Your next world&#10;starts here." android:textColor="#FFFFFF" android:textSize="32sp" android:textStyle="bold" android:letterSpacing="-0.02" android:paddingTop="10dp" android:paddingBottom="9dp"/>
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Your Minecraft setup. Your world. One tap away." android:textColor="#D5DEE8" android:textSize="13sp" android:paddingBottom="18dp"/>
-<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp" android:background="@drawable/eto_library_panel">
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="YOUR LIBRARY" android:textColor="#8FE6C0" android:textSize="10sp" android:textStyle="bold" android:letterSpacing="0.12" android:paddingBottom="10dp"/>
-<com.kdt.mcgui.mcVersionSpinner android:id="@+id/mc_version_spinner" android:layout_width="match_parent" android:layout_height="52dp" android:background="#E51B2938" android:textColor="#FFFFFF" android:drawableEnd="@drawable/spinner_arrow" app:drawableEndSize="18dp" app:drawableStartIntegerScaling="true" app:drawableStartSize="30dp" app:drawableEndPadding="3dp"/>
-<com.kdt.mcgui.LauncherMenuButton android:id="@+id/install_jar_button" android:layout_width="match_parent" android:layout_height="44dp" android:layout_marginTop="10dp" android:text="  + Install another version" android:textColor="#FFFFFF" android:backgroundTint="#24543F" android:drawableStart="@drawable/ic_eto_add"/>
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Your installed game versions stay on this device." android:textColor="#BFCBD7" android:textSize="11sp" android:paddingTop="9dp"/>
-</LinearLayout>
-<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginTop="14dp" android:padding="18dp" android:background="@drawable/eto_live_panel">
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ETO LIVE" android:textColor="#8FE6C0" android:textSize="10sp" android:textStyle="bold"/>
-<TextView android:id="@+id/eto_remote_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Welcome back." android:textColor="#FFFFFF" android:textSize="18sp" android:textStyle="bold" android:paddingTop="5dp"/>
-<TextView android:id="@+id/eto_remote_message" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="News and supported content updates appear here." android:textColor="#D4DEE8" android:textSize="12sp" android:paddingTop="5dp"/>
-<TextView android:id="@+id/eto_remote_version" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CONTENT CHANNEL  •  READY" android:textColor="#8FE6C0" android:textSize="9sp" android:paddingTop="8dp"/>
-<androidx.appcompat.widget.AppCompatButton android:id="@+id/eto_update_button" android:layout_width="match_parent" android:layout_height="42dp" android:layout_marginTop="12dp" android:text="DOWNLOAD UPDATE" android:textAllCaps="true" android:textStyle="bold" android:textColor="#07140F" android:backgroundTint="#8FE6C0" android:visibility="gone"/>
-<ProgressBar android:id="@+id/eto_update_progress" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="7dp" android:layout_marginTop="9dp" android:max="100" android:progress="0" android:progressTint="#8FE6C0" android:visibility="gone"/>
-<TextView android:id="@+id/eto_update_status" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="#D4DEE8" android:textSize="11sp" android:paddingTop="5dp" android:visibility="gone"/>
-</LinearLayout>
-<View android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
-<TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="JAVA EDITION  •  ETO NETWORK" android:textColor="#C1CCD8" android:textSize="9sp" android:gravity="end" android:paddingBottom="5dp"/>
-</LinearLayout>
-<ImageButton android:id="@+id/edit_version_button" android:layout_width="42dp" android:layout_height="42dp" android:layout_marginTop="10dp" android:layout_marginEnd="108dp" android:background="#D91B2938" android:src="@drawable/ic_eto_edit" android:tint="#FFFFFF" android:contentDescription="Edit Minecraft version" android:elevation="8dp" app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
-<ImageButton android:id="@+id/eto_settings_button" android:layout_width="42dp" android:layout_height="42dp" android:layout_marginTop="10dp" android:layout_marginEnd="58dp" android:background="#D91B2938" android:src="@drawable/ic_eto_settings" android:tint="#FFFFFF" android:contentDescription="Settings" android:elevation="8dp" app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
-<ImageButton android:id="@+id/edit_profile_button" android:layout_width="42dp" android:layout_height="42dp" android:layout_marginTop="10dp" android:layout_marginEnd="8dp" android:background="#D91B2938" android:src="@drawable/ic_eto_account" android:tint="#FFFFFF" android:contentDescription="Account" android:elevation="8dp" app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"/>
-<com.kdt.mcgui.MineButton android:id="@+id/play_button" android:layout_width="142dp" android:layout_height="52dp" android:layout_marginEnd="20dp" android:layout_marginBottom="18dp" android:text="▶  PLAY NOW" android:textColor="#07140F" android:textStyle="bold" android:textSize="14sp" android:elevation="12dp" android:backgroundTint="#8FE6C0" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
-<View android:id="@+id/_background_display_view" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/fragment_menu_main" android:layout_width="match_parent" android:layout_height="match_parent" android:background="@android:color/transparent">
+
+    <LinearLayout
+        android:id="@+id/eto_header"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="28dp"
+        android:paddingEnd="28dp"
+        android:background="#99101824"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ETO" android:textColor="#FFFFFF" android:textSize="23sp" android:textStyle="bold" android:letterSpacing="0.18"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="MINECRAFT JAVA  /  GAME LAUNCHER" android:textColor="#9EB0C2" android:textSize="9sp" android:textStyle="bold" android:letterSpacing="0.12"/>
+        </LinearLayout>
+
+        <ImageButton android:id="@+id/edit_version_button" android:layout_width="42dp" android:layout_height="42dp" android:layout_marginEnd="9dp" android:background="@drawable/eto_live_panel" android:src="@drawable/ic_eto_edit" android:tint="#DCE8F2" android:padding="10dp" android:contentDescription="Edit game version"/>
+        <ImageButton android:id="@+id/edit_profile_button" android:layout_width="42dp" android:layout_height="42dp" android:layout_marginEnd="9dp" android:background="@drawable/eto_live_panel" android:src="@drawable/ic_eto_account" android:tint="#DCE8F2" android:padding="10dp" android:contentDescription="Account"/>
+        <ImageButton android:id="@+id/eto_settings_button" android:layout_width="42dp" android:layout_height="42dp" android:background="@drawable/eto_live_panel" android:src="@drawable/ic_eto_settings" android:tint="#DCE8F2" android:padding="10dp" android:contentDescription="Settings"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/eto_news_area"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingStart="34dp"
+        android:paddingEnd="34dp"
+        android:paddingTop="22dp"
+        android:paddingBottom="22dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toBottomOf="@id/eto_header"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingEnd="28dp">
+
+            <TextView android:id="@+id/eto_home_eyebrow" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="YOUR NEXT ADVENTURE" android:textColor="#8FE6C0" android:textSize="10sp" android:textStyle="bold" android:letterSpacing="0.2"/>
+            <TextView android:id="@+id/eto_hero_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="MAKE THIS&#10;WORLD YOURS." android:textColor="#FFFFFF" android:textSize="36sp" android:textStyle="bold" android:letterSpacing="-0.025" android:lineSpacingMultiplier="0.94" android:paddingTop="12dp"/>
+            <TextView android:id="@+id/eto_hero_subtitle" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Your Minecraft worlds, profiles and tools — together in one clean place." android:textColor="#D5DEE8" android:textSize="13sp" android:lineSpacingMultiplier="1.15" android:paddingTop="10dp" android:paddingBottom="22dp"/>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+                <com.kdt.mcgui.LauncherMenuButton android:id="@+id/customize_button" android:layout_width="wrap_content" android:layout_height="46dp" android:minWidth="142dp" android:paddingStart="18dp" android:paddingEnd="18dp" android:text="APPEARANCE" android:textColor="#EAF4F0" android:textStyle="bold" android:textSize="11sp" android:backgroundTint="#263D3B" android:drawableStart="@drawable/ic_eto_edit" app:drawableStartSize="18dp"/>
+                <com.kdt.mcgui.LauncherMenuButton android:id="@+id/skin_button" android:layout_width="wrap_content" android:layout_height="46dp" android:layout_marginStart="10dp" android:minWidth="130dp" android:paddingStart="18dp" android:paddingEnd="18dp" android:text="SKIN STUDIO" android:textColor="#EAF4F0" android:textStyle="bold" android:textSize="11sp" android:backgroundTint="#263344" android:drawableStart="@drawable/ic_eto_account" app:drawableStartSize="18dp"/>
+            </LinearLayout>
+
+            <TextView android:id="@+id/eto_home_footer" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ETO NETWORK     •     BUILT FOR YOUR WORLDS" android:textColor="#AAB8C6" android:textSize="9sp" android:textStyle="bold" android:letterSpacing="0.1" android:paddingTop="30dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="292dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:padding="20dp" android:background="@drawable/eto_library_panel">
+                <TextView android:id="@+id/eto_library_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="GAME LIBRARY" android:textColor="#8FE6C0" android:textSize="10sp" android:textStyle="bold" android:letterSpacing="0.16" android:paddingBottom="12dp"/>
+                <com.kdt.mcgui.mcVersionSpinner android:id="@+id/mc_version_spinner" android:layout_width="match_parent" android:layout_height="50dp" android:background="#D91B2938" android:textColor="#FFFFFF" android:drawableEnd="@drawable/spinner_arrow" app:drawableEndSize="18dp" app:drawableStartIntegerScaling="true" app:drawableStartSize="28dp" app:drawableEndPadding="3dp"/>
+                <com.kdt.mcgui.LauncherMenuButton android:id="@+id/install_jar_button" android:layout_width="match_parent" android:layout_height="40dp" android:layout_marginTop="9dp" android:text="+  ADD GAME VERSION" android:textColor="#DDE8F0" android:textSize="10sp" android:textStyle="bold" android:backgroundTint="#253A39"/>
+                <com.kdt.mcgui.MineButton android:id="@+id/play_button" android:layout_width="match_parent" android:layout_height="52dp" android:layout_marginTop="14dp" android:text="PLAY  →" android:textColor="#07140F" android:textStyle="bold" android:textSize="14sp" android:backgroundTint="#8FE6C0"/>
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="vertical" android:layout_marginTop="13dp" android:padding="17dp" android:background="@drawable/eto_live_panel">
+                <TextView android:id="@+id/eto_live_label" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="ETO LIVE" android:textColor="#8FE6C0" android:textSize="9sp" android:textStyle="bold" android:letterSpacing="0.16"/>
+                <TextView android:id="@+id/eto_remote_title" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="You're up to date." android:textColor="#FFFFFF" android:textSize="15sp" android:textStyle="bold" android:paddingTop="6dp"/>
+                <TextView android:id="@+id/eto_remote_message" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Eto news and content updates appear here." android:textColor="#CBD6E1" android:textSize="11sp" android:paddingTop="4dp"/>
+                <TextView android:id="@+id/eto_remote_version" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="CONTENT CHANNEL  •  READY" android:textColor="#8FE6C0" android:textSize="8sp" android:paddingTop="7dp"/>
+                <androidx.appcompat.widget.AppCompatButton android:id="@+id/eto_update_button" android:layout_width="match_parent" android:layout_height="38dp" android:layout_marginTop="9dp" android:text="UPDATE CONTENT" android:textAllCaps="true" android:textStyle="bold" android:textSize="10sp" android:textColor="#07140F" android:backgroundTint="#8FE6C0" android:visibility="gone"/>
+                <ProgressBar android:id="@+id/eto_update_progress" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="6dp" android:layout_marginTop="8dp" android:max="100" android:progress="0" android:progressTint="#8FE6C0" android:visibility="gone"/>
+                <TextView android:id="@+id/eto_update_status" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="#D4DEE8" android:textSize="10sp" android:paddingTop="5dp" android:visibility="gone"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Legacy view IDs retained only for upstream listeners; the old clutter is removed. -->
+    <ScrollView android:id="@+id/eto_sidebar" android:layout_width="1dp" android:layout_height="1dp" android:visibility="gone"/>
+    <com.kdt.mcgui.LauncherMenuButton android:id="@+id/news_button" android:layout_width="1dp" android:layout_height="1dp" android:visibility="gone" android:text="Home"/>
+    <com.kdt.mcgui.LauncherMenuButton android:id="@+id/social_media_button" android:layout_width="1dp" android:layout_height="1dp" android:visibility="gone" android:text="Community"/>
+    <com.kdt.mcgui.LauncherMenuButton android:id="@+id/custom_control_button" android:layout_width="1dp" android:layout_height="1dp" android:visibility="gone" android:text="Controls"/>
+    <com.kdt.mcgui.LauncherMenuButton android:id="@+id/open_files_button" android:layout_width="1dp" android:layout_height="1dp" android:visibility="gone" android:text="Game files"/>
+    <com.kdt.mcgui.LauncherMenuButton android:id="@+id/share_logs_button" android:layout_width="1dp" android:layout_height="1dp" android:visibility="gone" android:text="Debug logs"/>
+    <View android:id="@+id/_background_display_view" android:layout_width="0dp" android:layout_height="0dp" android:visibility="gone" app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent" app:layout_constraintTop_toTopOf="parent" app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
