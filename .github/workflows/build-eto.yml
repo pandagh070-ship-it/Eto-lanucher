@@ -198,6 +198,29 @@ jobs:
         run: |
           python3 scripts/patch_eto_updater.py
 
+      - name: Set matching Android and update-manifest version
+        env:
+          GITHUB_RUN_NUMBER: ${{ github.run_number }}
+        run: |
+          python3 - <<'PY'
+          import os, re
+          from pathlib import Path
+          p = Path("upstream/app_pojavlauncher/build.gradle")
+          s = p.read_text(encoding="utf-8")
+          run_number = int(os.environ["GITHUB_RUN_NUMBER"])
+          match = re.search(r"(?m)^(\\s*versionCode\\s*(?:=\\s*)?)(\\d+)", s)
+          if not match:
+              raise SystemExit("Could not find Android versionCode in app build.gradle")
+          version_code = int(match.group(2)) + run_number
+          s = s[:match.start(2)] + str(version_code) + s[match.end(2):]
+          name = re.search(r'(?m)^(\\s*versionName\\s*(?:=\\s*)?)["\\']([^"\\']*)["\\']', s)
+          if name:
+              s = s[:name.start(2)] + f"Eto build {run_number}" + s[name.end(2):]
+          p.write_text(s, encoding="utf-8")
+          Path("eto-version-code.txt").write_text(str(version_code), encoding="utf-8")
+          print(f"Android versionCode and update manifest will use {version_code}")
+          PY
+
       - name: Build Eto debug APK
         working-directory: upstream
         run: |
@@ -218,7 +241,7 @@ jobs:
           cp upstream/app_pojavlauncher/build/outputs/apk/full/debug/*.apk release-assets/EtoLauncher.apk
           cat > release-assets/update.json <<EOF
           {
-            "versionCode": ${GITHUB_RUN_NUMBER},
+            "versionCode": $(cat eto-version-code.txt),
             "versionName": "Eto build ${GITHUB_RUN_NUMBER}",
             "changelog": [
               "Updated Eto Launcher interface",
