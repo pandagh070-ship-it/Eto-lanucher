@@ -24,9 +24,10 @@ if "startEtoIntroTrailer(view);" not in s:
 methods = r"""
     // Plays the bundled Eto trailer behind the launcher UI on every fresh menu creation.
     private VideoView etoIntroPlayer;
+    private static boolean etoIntroPlayed = false;
 
     private void startEtoIntroTrailer(View root) {
-        if (!(root instanceof ViewGroup) || !isAdded()) return;
+        if (!(root instanceof ViewGroup) || !isAdded() || etoIntroPlayed) return;
         ViewGroup group = (ViewGroup) root;
         // Keep the root transparent so its SurfaceView can actually be seen.
         root.setBackgroundColor(android.graphics.Color.TRANSPARENT);
@@ -61,6 +62,7 @@ methods = r"""
         Uri trailer = Uri.parse("android.resource://" + requireContext().getPackageName() + "/" + R.raw.eto_intro);
         player.setVideoURI(trailer);
         player.setOnPreparedListener(mp -> {
+            etoIntroPlayed = true;
             mp.setLooping(false);
             mp.setVolume(0.85f, 0.85f);
             if (etoBackgroundMediaPlayer != null) {
