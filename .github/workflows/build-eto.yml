@@ -238,6 +238,9 @@ jobs:
       - name: Enforce final Eto visible button action mapping
         run: python3 scripts/patch_eto_final_actions.py
 
+      - name: Fix Eto account, version, skin preview and video layering
+        run: python3 scripts/patch_eto_controls_and_media.py
+
       - name: Set matching Android and update-manifest version
         env:
           GITHUB_RUN_NUMBER: ${{ github.run_number }}
@@ -289,7 +292,10 @@ jobs:
             "versionName": "Eto build ${GITHUB_RUN_NUMBER}",
             "changelog": [
               "Updated Eto Launcher interface",
-              "Dedicated Skin Studio button in the main menu",
+              "Fixed account selector and Minecraft version editor buttons",
+              "Improved skin preview and selected skin integration",
+              "Prevented intro and wallpaper videos and audio from overlapping",
+              "Eto launcher settings and language options",
               "In-app update checker and APK download",
               "Fixed public latest-release update discovery",
               "Improved in-app update delivery"
