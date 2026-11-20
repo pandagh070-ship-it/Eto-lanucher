@@ -3,6 +3,22 @@ from pathlib import Path
 p = Path("upstream/app_pojavlauncher/src/main/java/net/kdt/pojavlaunch/fragments/MainMenuFragment.java")
 s = p.read_text(encoding="utf-8")
 
+# Mute/hide the wallpaper as soon as the intro starts, including while it buffers.
+intro_anchor = "        ViewGroup group = (ViewGroup) root;"
+intro_replacement = """        ViewGroup group = (ViewGroup) root;
+        etoIntroAudioActive = true;
+        if (etoPersistentBackgroundVideo != null) {
+            try {
+                etoPersistentBackgroundVideo.pause();
+                etoPersistentBackgroundVideo.setVisibility(View.GONE);
+            } catch (Exception ignored) {}
+        }
+        if (etoBackgroundMediaPlayer != null) {
+            try { etoBackgroundMediaPlayer.setVolume(0f, 0f); } catch (Exception ignored) {}
+        }"""
+if intro_anchor in s and "etoIntroAudioActive = true;\\n        if (etoPersistentBackgroundVideo != null)" not in s:
+    s = s.replace(intro_anchor, intro_replacement, 1)
+
 # The top-right account icon must open the real account selector. The edit icon
 # beside it must open the selected Minecraft instance/profile editor.
 old_account = 'etoProfileAction.setOnClickListener(v -> mVersionSpinner.openProfileEditor(requireActivity()));'
